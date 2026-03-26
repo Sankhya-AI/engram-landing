@@ -1,8 +1,67 @@
-
 import React from 'react';
 import { SpotlightCard } from './scrollx/SpotlightCard';
 
-const FeatureCard = ({ title, description, icon }: { title: string, description: string, icon: React.ReactNode }) => (
+const featureCards = [
+  {
+    title: 'Persistent memory',
+    description:
+      'Store facts, preferences, and observations with echo-augmented retrieval, so recall still works when the future question is phrased differently.',
+    icon: (
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="12.5" width="20" height="15" rx="2" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M14 18h12M14 22h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M15 12.5V10a5 5 0 0 1 10 0v2.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Performance tracking',
+    description:
+      'Capture outcomes per task type, surface trends, and warn when an agent is regressing before the regression becomes user-visible.',
+    icon: (
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 29l7-8 5 4 10-13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 31h22" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+        <circle cx="16" cy="21" r="2" fill="currentColor" fillOpacity="0.2" />
+        <circle cx="21" cy="25" r="2" fill="currentColor" fillOpacity="0.2" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Insight synthesis',
+    description:
+      'Turn what worked and what failed into reusable causal learnings, so the next run starts with strategies instead of just raw logs.',
+    icon: (
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 8c-5 0-9 3.7-9 8.3 0 2.7 1.4 5.2 3.7 6.8V28a1 1 0 0 0 1 1h8.6a1 1 0 0 0 1-1v-4.9c2.3-1.6 3.7-4.1 3.7-6.8C29 11.7 25 8 20 8Z" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M17 31h6M17.5 34h5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M17 18h6M17 21h4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Prospective memory',
+    description:
+      'Store future triggers like “remember to run auth tests when login changes” and surface them automatically when the next matching context appears.',
+    icon: (
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="11" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M20 14v7l4 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="29" cy="12" r="3" fill="currentColor" fillOpacity="0.18" />
+      </svg>
+    ),
+  },
+];
+
+const FeatureCard = ({
+  title,
+  description,
+  icon,
+}: {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}) => (
   <SpotlightCard
     spotlightColor="255, 255, 255"
     className="group p-8 border border-black/5 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.05)] rounded-2xl hover:shadow-[0_18px_40px_rgba(0,0,0,0.07)] transition-all duration-500"
@@ -11,88 +70,42 @@ const FeatureCard = ({ title, description, icon }: { title: string, description:
       {icon}
     </div>
     <h3 className="text-base font-semibold mb-3 text-gray-900">{title}</h3>
-    <p className="text-gray-500 text-sm leading-relaxed mb-6">{description}</p>
+    <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
   </SpotlightCard>
 );
 
 export const Features: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-12">
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-12 items-end mb-12">
-        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
-          Four problems{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            nobody else is solving.
-          </span>
-        </h2>
+      <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-12 items-end mb-12">
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Core capabilities</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
+            Four cognition primitives that make
+            {' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              HyperAgents possible.
+            </span>
+          </h2>
+        </div>
         <p className="text-sm text-gray-500 leading-relaxed">
-          Built on FadeMem (Ebbinghaus decay), CLS Distillation (sleep consolidation), and Benna-Fusi multi‑trace dynamics.
+          Most agent memory products stop at storage and retrieval. Dhee packages the four capabilities that the
+          HyperAgents direction actually needs: remembering, tracking outcomes, synthesizing learnings, and
+          triggering future intent in the right context.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <FeatureCard
-          title="Memory That Forgets Like You Do"
-          description="Ebbinghaus decay curve, multi-timescale Benna-Fusi traces, and CLS sleep-cycle consolidation. Short-term memories fade fast; important ones promote to long-term. Homeostatic normalization prevents runaway strength. Reference-aware GC won't prune memories other agents still use."
-          icon={(
-            <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 32 Q12 10 20 18 Q28 26 32 8" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
-              <circle cx="8" cy="32" r="2" fill="currentColor" fillOpacity="0.3"/>
-              <circle cx="32" cy="8" r="2" fill="currentColor" fillOpacity="0.3"/>
-            </svg>
-          )}
-        />
-
-        <FeatureCard
-          title="Memory-as-Orchestrator"
-          description="Agent capabilities are stored as memories. When a task arrives, Engram semantically matches it to the best available agent — no YAML routing, no manual assignment. The same Memory.search() that retrieves conversations also routes tasks."
-          icon={(
-            <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="10" r="3.5" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-              <circle cx="10" cy="30" r="3.5" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-              <circle cx="30" cy="30" r="3.5" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-              <path d="M20 13.5L10 26.5" stroke="currentColor" strokeWidth="1.2"/>
-              <path d="M20 13.5L30 26.5" stroke="currentColor" strokeWidth="1.2"/>
-              <path d="M13.5 30L26.5 30" stroke="currentColor" strokeWidth="1.2"/>
-              <path d="M17 11L12 27" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 2" opacity="0.4"/>
-              <path d="M23 11L28 27" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 2" opacity="0.4"/>
-            </svg>
-          )}
-        />
-
-        <FeatureCard
-          title="Active + Passive Dual Architecture"
-          description="Passive memory is semantic search and episodic scenes. Active memory is a real-time signal bus — state, events, and directives with TTL tiers. Agents broadcast what they're doing right now. Intent-aware routing picks the right retrieval path automatically."
-          icon={(
-            <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="14" cy="20" r="10" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-              <circle cx="26" cy="20" r="10" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-              <ellipse cx="20" cy="20" rx="4" ry="8" fill="currentColor" fillOpacity="0.1"/>
-            </svg>
-          )}
-        />
-
-        <FeatureCard
-          title="Zero-Context Agent Handoff"
-          description="Agent crashes, hits a rate limit, or you just switch tools. Engram's handoff bus saves a full session digest — task, decisions, files touched, TODOs, blockers. Next agent calls get_last_session and picks up exactly where the last one stopped."
-          icon={(
-            <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 20h8m0 0l-3-3m3 3l-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M24 20h8m0 0l-3-3m3 3l-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              <rect x="16" y="12" width="8" height="16" rx="2" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.08"/>
-              <line x1="18" y1="17" x2="22" y2="17" stroke="currentColor" strokeWidth="0.8"/>
-              <line x1="18" y1="20" x2="22" y2="20" stroke="currentColor" strokeWidth="0.8"/>
-              <line x1="18" y1="23" x2="22" y2="23" stroke="currentColor" strokeWidth="0.8"/>
-            </svg>
-          )}
-        />
+        {featureCards.map((feature) => (
+          <FeatureCard key={feature.title} {...feature} />
+        ))}
       </div>
     </div>
   );

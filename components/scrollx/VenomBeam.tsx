@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
@@ -27,6 +27,25 @@ const createNodes = (count: number, width: number, height: number): Node[] =>
 export default function VenomBeam({ className, children }: VenomBeamProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    observer.observe(canvas);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -36,24 +55,31 @@ export default function VenomBeam({ className, children }: VenomBeamProps) {
 
     let animationId = 0;
     let nodes: Node[] = [];
+    let lastFrameTime = 0;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const density = rect.width < 640 ? 22 : 42;
+      const density = rect.width < 640 ? 14 : 28;
       nodes = createNodes(density, rect.width, rect.height);
     };
 
     const drawFrame = (time: number) => {
+      if (time - lastFrameTime < 1000 / 30) {
+        animationId = requestAnimationFrame(drawFrame);
+        return;
+      }
+      lastFrameTime = time;
+
       const { width, height } = canvas.getBoundingClientRect();
       ctx.fillStyle = "rgba(252, 248, 244, 0.22)";
       ctx.fillRect(0, 0, width, height);
       ctx.globalCompositeOperation = "lighter";
 
-      const maxDistance = 170;
+      const maxDistance = 140;
 
       nodes.forEach((node) => {
         node.x += node.vx + Math.sin(time * 0.00035 + node.x) * 0.06;
@@ -110,7 +136,7 @@ export default function VenomBeam({ className, children }: VenomBeamProps) {
 
     resize();
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || !isInView) {
       drawStatic();
       const handleResize = () => {
         resize();
@@ -133,7 +159,7 @@ export default function VenomBeam({ className, children }: VenomBeamProps) {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
     };
-  }, [prefersReducedMotion]);
+  }, [isInView, prefersReducedMotion]);
 
   return (
     <div className="relative w-full overflow-hidden bg-[#fdf8f5]">

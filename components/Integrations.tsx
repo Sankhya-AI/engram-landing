@@ -4,7 +4,7 @@ import { SpotlightCard } from './scrollx/SpotlightCard';
 const integrations = [
   {
     name: 'Claude Code',
-    description: 'MCP server + plugin with UserPromptSubmit hook and session handoff',
+    description: 'Core MCP server with session bootstrap and checkpoint-backed continuity',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="3" y="5" width="22" height="18" rx="3" stroke="currentColor" strokeWidth="1.4" />
@@ -15,7 +15,7 @@ const integrations = [
   },
   {
     name: 'Cursor',
-    description: 'Drop-in MCP config — works instantly',
+    description: 'Drop in the MCP config and give every coding session shared cognition',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 6l16 8-7 3-3 7z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
@@ -25,7 +25,7 @@ const integrations = [
   },
   {
     name: 'OpenAI Codex',
-    description: 'TOML config — picks up where Claude Code left off',
+    description: 'Shared context and checkpoints so Codex can pick up where another agent stopped',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="1.4" />
@@ -38,19 +38,8 @@ const integrations = [
     ),
   },
   {
-    name: 'REST API',
-    description: 'Session tokens, staged writes, scene search',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 10l-4 4 4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M21 10l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M16 6l-4 16" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
     name: 'Claude Desktop',
-    description: 'Native MCP integration — memory in every conversation',
+    description: 'Native MCP integration for conversational agents that should remember across chats',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="4" y="4" width="20" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.3" />
@@ -61,23 +50,32 @@ const integrations = [
     ),
   },
   {
-    name: 'OpenClaw',
-    description: 'Shared memory across agent swarms',
+    name: 'Python SDK',
+    description: 'Call Dhee directly from your runtime with the same four core operations',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3" />
-        <circle cx="7" cy="20" r="2.5" stroke="currentColor" strokeWidth="1.3" />
-        <circle cx="21" cy="20" r="2.5" stroke="currentColor" strokeWidth="1.3" />
-        <line x1="14" y1="10.5" x2="7" y2="17.5" stroke="currentColor" strokeWidth="1.1" />
-        <line x1="14" y1="10.5" x2="21" y2="17.5" stroke="currentColor" strokeWidth="1.1" />
-        <line x1="9.5" y1="20" x2="18.5" y2="20" stroke="currentColor" strokeWidth="1.1" />
+        <path d="M9 6h6a4 4 0 0 1 4 4v3H11a3 3 0 0 0-3 3v1H6a3 3 0 0 1-3-3v-4a4 4 0 0 1 4-4h2Z" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M19 22h-6a4 4 0 0 1-4-4v-3h8a3 3 0 0 0 3-3v-1h2a3 3 0 0 1 3 3v4a4 4 0 0 1-4 4h-2Z" stroke="currentColor" strokeWidth="1.3" />
+        <circle cx="10" cy="9.5" r="1" fill="currentColor" />
+        <circle cx="18" cy="18.5" r="1" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    name: 'CLI + Docker',
+    description: 'Use the same cognition loop in scripts, local tooling, or containerized deployments',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="9" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M9 14h3M14 14h5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M8 9V6M14 9V6M20 9V6" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
       </svg>
     ),
   },
 ];
 
 const ToolBadge = ({ label }: { label: string }) => (
-  <span className="px-2.5 py-1 rounded-md bg-white/10 text-[11px] font-medium text-gray-300 border border-white/5">
+  <span className="px-2.5 py-1 rounded-md bg-[#f7f3f0] text-[11px] font-semibold text-gray-700 border border-black/5 shadow-[0_1px_0_rgba(0,0,0,0.03)]">
     {label}
   </span>
 );
@@ -85,10 +83,11 @@ const ToolBadge = ({ label }: { label: string }) => (
 export const Integrations: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-12">
-      {/* Header */}
       <div className="text-center mb-14">
+        <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Interfaces</p>
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-4">
-          One install.{' '}
+          One install.
+          {' '}
           <span
             style={{
               background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
@@ -97,16 +96,15 @@ export const Integrations: React.FC = () => {
               backgroundClip: 'text',
             }}
           >
-            Every agent remembers.
+            Every agent can learn.
           </span>
         </h2>
-        <p className="text-sm text-gray-500 leading-relaxed max-w-lg mx-auto">
-          Run <code className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700 text-xs font-mono">engram-install</code> and
-          Engram auto-configures MCP servers, hooks, and plugins for every tool in your stack.
+        <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
+          Dhee keeps the interface surface small enough to embed anywhere: MCP for agent tools, Python for
+          applications, CLI for scripts, and Docker when you want a portable runtime.
         </p>
       </div>
 
-      {/* Integration cards grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
         {integrations.map((item) => (
           <SpotlightCard
@@ -123,146 +121,115 @@ export const Integrations: React.FC = () => {
         ))}
       </div>
 
-      {/* Terminal install card */}
-      <div className="rounded-2xl bg-[#0d0d0d] p-6 md:p-8 mb-8 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-        <div className="flex items-center gap-2 mb-5">
-          <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
-          <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
-          <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-          <span className="ml-3 text-[11px] text-gray-500 font-mono">terminal</span>
-        </div>
-        <div className="font-mono text-sm leading-loose">
-          <div className="text-gray-500">
-            <span className="text-green-400">$</span>{' '}
-            <span className="text-gray-200">pip install</span>{' '}
-            <span className="text-blue-300">"engram-memory[all]"</span>
+      <div className="grid grid-cols-1 xl:grid-cols-[1.1fr_0.9fr] gap-6 mb-8">
+        <div className="rounded-2xl bg-[#0d0d0d] p-6 md:p-8 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+          <div className="flex items-center gap-2 mb-5">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
+            <span className="ml-3 text-[11px] text-gray-500 font-mono">mcp quick start</span>
           </div>
-          <div className="text-gray-500">
-            <span className="text-green-400">$</span>{' '}
-            <span className="text-gray-200">export</span>{' '}
-            <span className="text-amber-300">GEMINI_API_KEY</span>
-            <span className="text-gray-400">=</span>
-            <span className="text-amber-300">"your-key"</span>
-          </div>
-          <div className="text-gray-500">
-            <span className="text-green-400">$</span>{' '}
-            <span className="text-gray-200">engram-install</span>
-          </div>
-          <div className="mt-3 text-gray-500 text-xs leading-relaxed">
-            <span className="text-gray-600">{'>'}</span> Configured Claude Code (MCP + plugin) <span className="text-green-400/70">✓</span>
-            <br />
-            <span className="text-gray-600">{'>'}</span> Configured Claude Desktop <span className="text-green-400/70">✓</span>
-            <br />
-            <span className="text-gray-600">{'>'}</span> Configured Cursor <span className="text-green-400/70">✓</span>
-            <br />
-            <span className="text-gray-600">{'>'}</span> Configured OpenAI Codex <span className="text-green-400/70">✓</span>
-            <br />
-            <span className="text-gray-600">{'>'}</span> Configured OpenClaw <span className="text-green-400/70">✓</span>
-            <br />
-            <span className="text-gray-600">{'>'}</span> Started REST API on :8100 <span className="text-green-400/70">✓</span>
-          </div>
-          <div className="mt-5 pt-4 border-t border-white/10">
+          <div className="font-mono text-sm leading-loose">
             <div className="text-gray-500">
               <span className="text-green-400">$</span>{' '}
-              <span className="text-gray-200">pip install -e</span>{' '}
-              <span className="text-blue-300">"./engram-bridge[web,orchestrator]"</span>
+              <span className="text-gray-200">pip install</span>{' '}
+              <span className="text-blue-300">"dhee[openai,mcp]"</span>
             </div>
             <div className="text-gray-500">
               <span className="text-green-400">$</span>{' '}
-              <span className="text-gray-200">engram-bridge</span>{' '}
-              <span className="text-amber-300">--channel web</span>
+              <span className="text-gray-200">export</span>{' '}
+              <span className="text-amber-300">OPENAI_API_KEY</span>
+              <span className="text-gray-400">=</span>
+              <span className="text-amber-300">"your-key"</span>
+            </div>
+            <div className="text-gray-500">
+              <span className="text-green-400">$</span>{' '}
+              <span className="text-gray-200">dhee-mcp</span>
             </div>
             <div className="mt-3 text-gray-500 text-xs leading-relaxed">
-              <span className="text-gray-600">{'>'}</span> Dashboard at http://127.0.0.1:8200 <span className="text-green-400/70">✓</span>
+              <span className="text-gray-600">{'>'}</span> Core tools exposed: remember, recall, context, checkpoint{' '}
+              <span className="text-green-400/70">✓</span>
               <br />
-              <span className="text-gray-600">{'>'}</span> Coordination layer enabled <span className="text-green-400/70">✓</span>
+              <span className="text-gray-600">{'>'}</span> Works with Claude Code, Cursor, Codex, Claude Desktop{' '}
+              <span className="text-green-400/70">✓</span>
               <br />
-              <span className="text-gray-600">{'>'}</span> Registered claude-code (python, typescript, debugging) <span className="text-green-400/70">✓</span>
-              <br />
-              <span className="text-gray-600">{'>'}</span> Registered codex (javascript, scaffolding) <span className="text-green-400/70">✓</span>
+              <span className="text-gray-600">{'>'}</span> Hot path stays at zero LLM calls{' '}
+              <span className="text-green-400/70">✓</span>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* MCP banner */}
-      <div id="mcp">
         <SpotlightCard
-          spotlightColor="120, 120, 200"
-          className="rounded-2xl border border-black/5 bg-white p-8 md:p-10 shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
+          spotlightColor="255, 255, 255"
+          className="rounded-2xl border border-black/5 bg-white p-6 shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
         >
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="px-2.5 py-1 rounded-md bg-black text-white text-[10px] font-semibold uppercase tracking-[0.15em]">
-                  MCP
-                </span>
-                <h3 className="text-lg font-semibold text-gray-900">Native protocol, not a wrapper</h3>
-              </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-lg mb-5">
-                32 tools over the Model Context Protocol — semantic search, signal bus, episodic scenes, character profiles,
-                staged writes, trust scoring, policy gateway, and session handoff. The Claude Code plugin adds a UserPromptSubmit hook
-                that injects relevant memories and session context before the LLM sees your message.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <ToolBadge label="search_memory" />
-                <ToolBadge label="signal_write" />
-                <ToolBadge label="signal_read" />
-                <ToolBadge label="search_scenes" />
-                <ToolBadge label="propose_write" />
-                <ToolBadge label="save_session_digest" />
-                <ToolBadge label="run_sleep_cycle" />
-                <ToolBadge label="get_agent_trust" />
-                <span className="px-2.5 py-1 rounded-md bg-gray-50 text-[11px] font-medium text-gray-400 border border-black/5">
-                  + 24 more
-                </span>
-              </div>
-            </div>
-            <div className="flex-shrink-0 w-full md:w-auto flex flex-col gap-4">
-              <div className="rounded-xl bg-gray-50 border border-black/5 p-5 text-center md:text-left">
-                <div className="text-4xl font-semibold text-gray-900 mb-1">32</div>
-                <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-3">MCP tools</div>
-                <div className="flex flex-col gap-1.5 text-xs text-gray-500">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                    Retrieval: search, scenes, profiles, context
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                    Writes: propose, stage, resolve, trust
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    Signals: state, events, directives, clear
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                    Lifecycle: decay, sleep cycle, handoff, policy
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-xl bg-gray-50 border border-black/5 p-5 text-center md:text-left">
-                <div className="text-4xl font-semibold text-gray-900 mb-1">7</div>
-                <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-3">REST endpoints</div>
-                <div className="flex flex-col gap-1.5 text-xs text-gray-500">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                    Agents: list, register, match
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                    Routing: route, batch, claim
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    Events: audit log
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="text-[11px] uppercase tracking-[0.22em] text-gray-400 mb-3">Python SDK</div>
+          <pre className="overflow-x-auto rounded-xl bg-[#f7f3f0] border border-black/5 p-4 font-mono text-sm leading-7 text-gray-700">
+{`from dhee import Dhee
+
+d = Dhee()
+d.context("fixing the auth bug in login.py")
+d.remember("User prefers dark mode")
+d.checkpoint(
+    "Fixed auth bug",
+    task_type="bug_fix",
+    what_worked="git blame showed the breaking commit",
+)`}
+          </pre>
+          <p className="mt-4 text-sm text-gray-500 leading-relaxed">
+            When you need more control, <code className="px-1.5 py-0.5 rounded bg-gray-100 text-xs">dhee-mcp-full</code>
+            {' '}exposes the advanced 24-tool surface for power users.
+          </p>
         </SpotlightCard>
       </div>
+
+      <SpotlightCard
+        spotlightColor="120, 120, 200"
+        className="rounded-2xl border border-black/5 bg-white p-8 md:p-10 shadow-[0_12px_30px_rgba(0,0,0,0.05)]"
+      >
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.35fr)_340px] gap-8 xl:items-start">
+          <div className="min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+              <span className="w-fit px-2.5 py-1 rounded-md bg-black text-white text-[10px] font-semibold uppercase tracking-[0.15em]">
+                MCP + SDK
+              </span>
+              <h3 className="text-xl font-semibold tracking-tight text-gray-900">
+                Small surface area, deep behavior
+              </h3>
+            </div>
+            <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mb-5">
+              Dhee does not ask you to adopt a new orchestration platform. It layers underneath the agents you
+              already run, adding the cognition primitives that let them remember, reflect, and continue.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <ToolBadge label="remember()" />
+              <ToolBadge label="recall()" />
+              <ToolBadge label="context()" />
+              <ToolBadge label="checkpoint()" />
+              <span className="px-2.5 py-1 rounded-md bg-[#f7f3f0] text-[11px] font-medium text-gray-600 border border-black/5 shadow-[0_1px_0_rgba(0,0,0,0.03)]">
+                optional 24-tool full server
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4 xl:max-w-[340px]">
+            <div className="rounded-xl bg-gray-50 border border-black/5 p-5">
+              <div className="text-4xl font-semibold text-gray-900 mb-1">4</div>
+              <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-2">Core tools</div>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Purposefully narrow primitives that work across agents and runtimes.
+              </p>
+            </div>
+            <div className="rounded-xl bg-gray-50 border border-black/5 p-5">
+              <div className="text-4xl font-semibold text-gray-900 mb-1">1</div>
+              <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-2">LLM pass</div>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                One batched checkpoint call per session instead of per-memory churn.
+              </p>
+            </div>
+          </div>
+        </div>
+      </SpotlightCard>
     </div>
   );
 };
