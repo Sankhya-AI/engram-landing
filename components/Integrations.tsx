@@ -4,7 +4,7 @@ import { SpotlightCard } from './scrollx/SpotlightCard';
 const integrations = [
   {
     name: 'Claude Code',
-    description: 'Core MCP server with session bootstrap and checkpoint-backed continuity',
+    description: 'Native hooks — self-evolving sessions, no SKILL.md, no plugin dir',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="3" y="5" width="22" height="18" rx="3" stroke="currentColor" strokeWidth="1.4" />
@@ -15,7 +15,7 @@ const integrations = [
   },
   {
     name: 'Cursor',
-    description: 'Drop in the MCP config and give every coding session shared cognition',
+    description: 'Drop the MCP config in — shared memory across every coding session',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 6l16 8-7 3-3 7z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
@@ -25,7 +25,7 @@ const integrations = [
   },
   {
     name: 'OpenAI Codex',
-    description: 'Shared context and checkpoints so Codex can pick up where another agent stopped',
+    description: 'Shared digest + context — Codex picks up where Claude Code left off',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="1.4" />
@@ -38,8 +38,17 @@ const integrations = [
     ),
   },
   {
-    name: 'Claude Desktop',
-    description: 'Native MCP integration for conversational agents that should remember across chats',
+    name: 'Gemini CLI',
+    description: 'MCP-native — Gemini gets selective context and digested tool output',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 3l3 8 8 3-8 3-3 8-3-8-8-3 8-3 3-8Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Aider · Cline · Goose',
+    description: 'Any MCP-compatible client gets the same memory + router',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="4" y="4" width="20" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.3" />
@@ -50,20 +59,8 @@ const integrations = [
     ),
   },
   {
-    name: 'Python SDK',
-    description: 'Call Dhee directly from your runtime with the same four core operations',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 6h6a4 4 0 0 1 4 4v3H11a3 3 0 0 0-3 3v1H6a3 3 0 0 1-3-3v-4a4 4 0 0 1 4-4h2Z" stroke="currentColor" strokeWidth="1.3" />
-        <path d="M19 22h-6a4 4 0 0 1-4-4v-3h8a3 3 0 0 0 3-3v-1h2a3 3 0 0 1 3 3v4a4 4 0 0 1-4 4h-2Z" stroke="currentColor" strokeWidth="1.3" />
-        <circle cx="10" cy="9.5" r="1" fill="currentColor" />
-        <circle cx="18" cy="18.5" r="1" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    name: 'CLI + Docker',
-    description: 'Use the same cognition loop in scripts, local tooling, or containerized deployments',
+    name: 'Python · CLI · Docker',
+    description: 'Same four operations from a script, a shell, or a container',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="4" y="9" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="1.3" />
@@ -86,8 +83,7 @@ export const Integrations: React.FC = () => {
       <div className="text-center mb-14">
         <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Interfaces</p>
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-4">
-          One install.
-          {' '}
+          One install.{' '}
           <span
             style={{
               background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
@@ -96,12 +92,12 @@ export const Integrations: React.FC = () => {
               backgroundClip: 'text',
             }}
           >
-            Every agent can learn.
+            Every MCP client works.
           </span>
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
-          Dhee keeps the interface surface small enough to embed anywhere: MCP for agent tools, Python for
-          applications, CLI for scripts, and Docker when you want a portable runtime.
+          Claude Code hooks natively. Cursor, Codex, Gemini CLI, Aider, Cline, Goose plug in through the MCP server.
+          Python SDK, CLI, and Docker cover everything else.
         </p>
       </div>
 
@@ -127,33 +123,28 @@ export const Integrations: React.FC = () => {
             <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-            <span className="ml-3 text-[11px] text-gray-500 font-mono">mcp quick start</span>
+            <span className="ml-3 text-[11px] text-gray-500 font-mono">one-liner install</span>
           </div>
           <div className="font-mono text-sm leading-loose">
             <div className="text-gray-500">
               <span className="text-green-400">$</span>{' '}
-              <span className="text-gray-200">pip install</span>{' '}
-              <span className="text-blue-300">"dhee[openai,mcp]"</span>
-            </div>
-            <div className="text-gray-500">
-              <span className="text-green-400">$</span>{' '}
-              <span className="text-gray-200">export</span>{' '}
-              <span className="text-amber-300">OPENAI_API_KEY</span>
-              <span className="text-gray-400">=</span>
-              <span className="text-amber-300">"your-key"</span>
-            </div>
-            <div className="text-gray-500">
-              <span className="text-green-400">$</span>{' '}
-              <span className="text-gray-200">dhee-mcp</span>
+              <span className="text-gray-200">curl -fsSL</span>{' '}
+              <span className="text-blue-300">
+                https://raw.githubusercontent.com/Sankhya-AI/Dhee/main/install.sh
+              </span>{' '}
+              <span className="text-gray-200">| sh</span>
             </div>
             <div className="mt-3 text-gray-500 text-xs leading-relaxed">
-              <span className="text-gray-600">{'>'}</span> Core tools exposed: remember, recall, context, checkpoint{' '}
+              <span className="text-gray-600">{'>'}</span> Installs the dhee package + MCP router{' '}
               <span className="text-green-400/70">✓</span>
               <br />
-              <span className="text-gray-600">{'>'}</span> Works with Claude Code, Cursor, Codex, Claude Desktop{' '}
+              <span className="text-gray-600">{'>'}</span> Wires Claude Code hooks{' '}
               <span className="text-green-400/70">✓</span>
               <br />
-              <span className="text-gray-600">{'>'}</span> Hot path stays at zero LLM calls{' '}
+              <span className="text-gray-600">{'>'}</span> Auto-ingests CLAUDE.md + AGENTS.md on first session{' '}
+              <span className="text-green-400/70">✓</span>
+              <br />
+              <span className="text-gray-600">{'>'}</span> Works with Cursor, Codex, Gemini CLI, Aider, Cline, Goose{' '}
               <span className="text-green-400/70">✓</span>
             </div>
           </div>
@@ -168,17 +159,18 @@ export const Integrations: React.FC = () => {
 {`from dhee import Dhee
 
 d = Dhee()
+d.remember("Project uses FastAPI over Flask")
+d.recall("what framework does the project use?")
 d.context("fixing the auth bug in login.py")
-d.remember("User prefers dark mode")
 d.checkpoint(
     "Fixed auth bug",
-    task_type="bug_fix",
     what_worked="git blame showed the breaking commit",
 )`}
           </pre>
           <p className="mt-4 text-sm text-gray-500 leading-relaxed">
-            When you need more control, <code className="px-1.5 py-0.5 rounded bg-gray-100 text-xs">dhee-mcp-full</code>
-            {' '}exposes the advanced 24-tool surface for power users.
+            Same four operations from every interface. Or install{' '}
+            <code className="px-1.5 py-0.5 rounded bg-gray-100 text-xs">dhee[mcp]</code> and expose the full 28-tool
+            MCP surface to any client.
           </p>
         </SpotlightCard>
       </div>
@@ -191,40 +183,44 @@ d.checkpoint(
           <div className="min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
               <span className="w-fit px-2.5 py-1 rounded-md bg-black text-white text-[10px] font-semibold uppercase tracking-[0.15em]">
-                MCP + SDK
+                MCP + hooks + SDK
               </span>
               <h3 className="text-xl font-semibold tracking-tight text-gray-900">
-                Small surface area, deep behavior
+                Small surface area, deep behavior.
               </h3>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mb-5">
-              Dhee does not ask you to adopt a new orchestration platform. It layers underneath the agents you
-              already run, adding the cognition primitives that let them remember, reflect, and continue.
+              Dhee doesn’t ask you to adopt a new orchestration platform. It layers underneath the agent you already
+              run, adds the router on top of fat tool calls, and quietly keeps your token bill thin.
             </p>
             <div className="flex flex-wrap gap-2">
-              <ToolBadge label="remember()" />
-              <ToolBadge label="recall()" />
-              <ToolBadge label="context()" />
-              <ToolBadge label="checkpoint()" />
+              <ToolBadge label="dhee_read" />
+              <ToolBadge label="dhee_bash" />
+              <ToolBadge label="dhee_agent" />
+              <ToolBadge label="dhee_expand_result" />
+              <ToolBadge label="remember" />
+              <ToolBadge label="recall" />
+              <ToolBadge label="context" />
+              <ToolBadge label="checkpoint" />
               <span className="px-2.5 py-1 rounded-md bg-[#f7f3f0] text-[11px] font-medium text-gray-600 border border-black/5 shadow-[0_1px_0_rgba(0,0,0,0.03)]">
-                optional 24-tool full server
+                + 20 more cognition tools
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4 xl:max-w-[340px]">
             <div className="rounded-xl bg-gray-50 border border-black/5 p-5">
-              <div className="text-4xl font-semibold text-gray-900 mb-1">4</div>
-              <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-2">Core tools</div>
+              <div className="text-4xl font-semibold text-gray-900 mb-1">28</div>
+              <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-2">MCP tools</div>
               <p className="text-xs text-gray-500 leading-relaxed">
-                Purposefully narrow primitives that work across agents and runtimes.
+                Router + memory + cognition, usable from any MCP client.
               </p>
             </div>
             <div className="rounded-xl bg-gray-50 border border-black/5 p-5">
-              <div className="text-4xl font-semibold text-gray-900 mb-1">1</div>
-              <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-2">LLM pass</div>
+              <div className="text-4xl font-semibold text-gray-900 mb-1">0</div>
+              <div className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium mb-2">Hot-path LLM calls</div>
               <p className="text-xs text-gray-500 leading-relaxed">
-                One batched checkpoint call per session instead of per-memory churn.
+                Memory + routing run on embeddings. LLM synthesis is batched at checkpoint.
               </p>
             </div>
           </div>

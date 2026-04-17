@@ -3,13 +3,14 @@ import { Analytics } from '@vercel/analytics/react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { GridLines } from './components/GridLines';
+import { Demo } from './components/Demo';
+import { ProofPoints } from './components/ProofPoints';
 import { Features } from './components/Features';
 import { RibbonBackground } from './components/RibbonBackground';
 import { MemoryStack } from './components/MemoryStack';
 import { Integrations } from './components/Integrations';
 import { Dashboard } from './components/Dashboard';
 import { CTA } from './components/CTA';
-import { Waitlist } from './components/Waitlist';
 
 export default function App() {
   return (
@@ -26,6 +27,14 @@ export default function App() {
         <main className="relative">
           <Hero />
 
+          <section id="demo" className="bg-white/94 border-t border-black/5 py-20">
+            <Demo />
+          </section>
+
+          <section id="benchmarks" className="bg-[#fdfbf9] border-t border-black/5 py-20">
+            <ProofPoints />
+          </section>
+
           <section id="capabilities" className="bg-white/92 border-t border-black/5 py-20">
             <Features />
           </section>
@@ -40,10 +49,6 @@ export default function App() {
 
           <section id="interfaces" className="bg-white border-t border-black/5 py-20">
             <Integrations />
-          </section>
-
-          <section id="hyperagents" className="bg-[#fffdfa] border-t border-black/5 py-20">
-            <Waitlist />
           </section>
 
           <section id="get-started" className="bg-[#fdf8f5] py-0">

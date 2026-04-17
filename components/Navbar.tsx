@@ -1,12 +1,11 @@
 import React from 'react';
 
 const navItems = [
-  { label: 'Platform', href: '#platform' },
-  { label: 'Capabilities', href: '#capabilities' },
-  { label: 'Loop', href: '#loop' },
+  { label: 'Demo', href: '#demo' },
+  { label: 'Benchmarks', href: '#benchmarks' },
+  { label: 'Usage', href: '#loop' },
   { label: 'Architecture', href: '#architecture' },
   { label: 'Interfaces', href: '#interfaces' },
-  { label: 'HyperAgents', href: '#hyperagents' },
 ];
 
 export const Navbar: React.FC = () => {

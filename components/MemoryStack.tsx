@@ -3,24 +3,24 @@ import { SpotlightCard } from './scrollx/SpotlightCard';
 
 const cards = [
   {
-    title: 'Engram: the memory store',
+    title: 'Memory substrate',
     description:
-      'SQLite plus a vector index for facts, history, and entities. Remember and recall stay on the hot path without LLM calls, while checkpoint batches enrichment into a single pass.',
+      'SQLite plus a vector index, heading-scoped chunking, and SHA-tracked ingest. Re-ingest is a no-op if the doc hasn’t changed. Works offline with Ollama, online with OpenAI, NVIDIA NIM, or Gemini.',
   },
   {
-    title: 'Buddhi: the cognition engine',
+    title: 'Context router',
     description:
-      'Performance tracking, insight synthesis, and prospective memory live here. Buddhi watches outcomes over time and turns them into warnings, learnings, and triggered intent.',
+      'Digest-at-source wrappers for Read, Bash, and subagent returns. Raw output is stored under a pointer; only the digest reaches the model. Per-class summaries for git_log, pytest, grep, source code, config, and more.',
   },
   {
-    title: 'Context bootstrap',
+    title: 'Cognition engine',
     description:
-      'A new task starts with the last session state, relevant memories, trend signals, reusable insights, and future triggers. This is how tool-switching stops feeling like amnesia.',
+      'Insight synthesis, performance tracking, prospective memory, belief store, policy store, edit ledger. Zero LLM calls on the hot path — the synthesis step runs at session checkpoint.',
   },
   {
-    title: 'Checkpoint compounding',
+    title: 'Self-tuning policy',
     description:
-      'One end-of-session checkpoint saves the digest, records outcome scores, enriches recent memories, and stores forward-looking reminders. The next run inherits that cognition.',
+      'Every dhee_expand_result call logs (tool, intent, depth). dhee router tune reads that ledger, applies thresholds, and atomically rewrites ~/.dhee/router_policy.json. The policy is the behavior.',
   },
 ];
 
@@ -41,8 +41,7 @@ export const MemoryStack: React.FC = () => {
         <div>
           <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Architecture</p>
           <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
-            Two layers.
-            {' '}
+            Four layers.{' '}
             <span
               style={{
                 background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
@@ -56,8 +55,9 @@ export const MemoryStack: React.FC = () => {
           </h2>
         </div>
         <p className="text-sm text-gray-500 max-w-md">
-          Dhee is not just a vector store and not a full agent framework. It is the cognition layer between
-          those worlds: Engram stores memory, Buddhi turns experience into better future behavior.
+          Dhee is not just a vector store and not a full agent framework. It is the layer that keeps your fat
+          knowledge fat — in your repo — while only the relevant slice reaches the model, and the retrieval policy
+          keeps tuning to what your team actually expands.
         </p>
       </div>
 
@@ -75,33 +75,34 @@ export const MemoryStack: React.FC = () => {
           <div>
             <p className="text-[11px] uppercase tracking-[0.22em] text-gray-400 mb-3">Why this matters</p>
             <h3 className="text-2xl font-semibold tracking-tight text-gray-900 mb-4">
-              HyperAgents need infrastructure for learning across sessions, not just bigger prompts.
+              Token bloat is the silent tax on every AI team.
             </h3>
             <p className="text-sm text-gray-600 leading-relaxed">
-              The March 2026 HyperAgents paper showed that persistent memory and performance tracking emerge as
-              transferable meta-capabilities when the improvement process itself can improve. Dhee packages those
-              capabilities so everyday agents can act less like wrappers and more like systems that compound.
+              Your CLAUDE.md grew from 50 lines to 500 to 2,000 in 18 months. Your skills directory has 30 files. Your
+              prompt library has a thousand entries. Every new session loads all of it, every turn, at full token
+              cost. Dhee turns that library into searchable, decay-aware, self-promoting memory — and digests fat
+              tool output so raw bytes never enter context. Keep authoring fat knowledge. Dhee handles the delivery.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white border border-black/5 p-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <div className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mb-2">Task agent</div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mb-2">Before Dhee</div>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  Solves the work in front of it.
+                  5,700 tokens per turn, growing.
                 </p>
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mb-2">Meta signals</div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mb-2">With Dhee</div>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  Track outcomes, warnings, and what worked.
+                  ~300 tokens of the right stuff.
                 </p>
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mb-2">Next session</div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mb-2">Five years in</div>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  Starts with context instead of cold start.
+                  Still ~300 tokens. Decay keeps the hot path flat.
                 </p>
               </div>
             </div>

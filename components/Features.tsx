@@ -3,9 +3,9 @@ import { SpotlightCard } from './scrollx/SpotlightCard';
 
 const featureCards = [
   {
-    title: 'Persistent memory',
+    title: 'Self-evolving memory',
     description:
-      'Store facts, preferences, and observations with echo-augmented retrieval, so recall still works when the future question is phrased differently.',
+      'Chunk your CLAUDE.md, AGENTS.md, and skills library once. Dhee embeds, indexes, and decays — only the rules that match this turn reach the model. A 500-line CLAUDE.md becomes ~300 tokens of the right stuff.',
     icon: (
       <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="10" y="12.5" width="20" height="15" rx="2" stroke="currentColor" strokeWidth="1.3" />
@@ -15,39 +15,40 @@ const featureCards = [
     ),
   },
   {
-    title: 'Performance tracking',
+    title: 'Context router — digest at source',
     description:
-      'Capture outcomes per task type, surface trends, and warn when an agent is regressing before the regression becomes user-visible.',
+      'Fat tool output never enters context raw. A 10 MB git log, a 50 KB source file, a 200-line subagent reply — all become token-sized digests with pointers. The model expands a pointer only when the digest is not enough.',
+    icon: (
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 12h24M8 20h24M8 28h24" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+        <circle cx="14" cy="12" r="2" fill="currentColor" />
+        <circle cx="24" cy="20" r="2" fill="currentColor" />
+        <circle cx="18" cy="28" r="2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Perfect recall, years in',
+    description:
+      'Ebbinghaus decay pushes unused knowledge out of the hot path. Frequently-referenced memories auto-promote. After five years you have 50,000 memories and the per-turn injection is still ~300 tokens.',
+    icon: (
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="11" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M20 14v7l4 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="29" cy="12" r="3" fill="currentColor" fillOpacity="0.18" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Self-tuning retrieval policy',
+    description:
+      'Dhee watches which digests the model expands and which it never does. dhee router tune rewrites the per-tool, per-intent depth policy automatically. The longer a team uses Dhee, the better it fits that team.',
     icon: (
       <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M9 29l7-8 5 4 10-13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M9 31h22" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
         <circle cx="16" cy="21" r="2" fill="currentColor" fillOpacity="0.2" />
         <circle cx="21" cy="25" r="2" fill="currentColor" fillOpacity="0.2" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Insight synthesis',
-    description:
-      'Turn what worked and what failed into reusable causal learnings, so the next run starts with strategies instead of just raw logs.',
-    icon: (
-      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 8c-5 0-9 3.7-9 8.3 0 2.7 1.4 5.2 3.7 6.8V28a1 1 0 0 0 1 1h8.6a1 1 0 0 0 1-1v-4.9c2.3-1.6 3.7-4.1 3.7-6.8C29 11.7 25 8 20 8Z" stroke="currentColor" strokeWidth="1.2" />
-        <path d="M17 31h6M17.5 34h5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M17 18h6M17 21h4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Prospective memory',
-    description:
-      'Store future triggers like “remember to run auth tests when login changes” and surface them automatically when the next matching context appears.',
-    icon: (
-      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="11" stroke="currentColor" strokeWidth="1.2" />
-        <path d="M20 14v7l4 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="29" cy="12" r="3" fill="currentColor" fillOpacity="0.18" />
       </svg>
     ),
   },
@@ -79,10 +80,9 @@ export const Features: React.FC = () => {
     <div className="max-w-6xl mx-auto px-6 md:px-12">
       <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-12 items-end mb-12">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Core capabilities</p>
+          <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">What Dhee does</p>
           <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
-            Four cognition primitives that make
-            {' '}
+            Four jobs, on every turn —{' '}
             <span
               style={{
                 background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
@@ -91,14 +91,14 @@ export const Features: React.FC = () => {
                 backgroundClip: 'text',
               }}
             >
-              HyperAgents possible.
+              so your tokens stay thin.
             </span>
           </h2>
         </div>
         <p className="text-sm text-gray-500 leading-relaxed">
-          Most agent memory products stop at storage and retrieval. Dhee packages the four capabilities that the
-          HyperAgents direction actually needs: remembering, tracking outcomes, synthesizing learnings, and
-          triggering future intent in the right context.
+          Most agent memory tools stop at "store and retrieve." Dhee does the four things that actually save tokens:
+          selective injection, digest-at-source, decay-aware recall, and a policy that tunes itself based on what your
+          model actually expands.
         </p>
       </div>
 

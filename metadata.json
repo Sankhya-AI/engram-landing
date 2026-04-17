@@ -1,5 +1,5 @@
 {
   "name": "Dhee Landing Page",
-  "description": "Dhee marketing site for the HyperAgent cognition layer, featuring persistent memory, performance tracking, insight synthesis, and prospective memory.",
+  "description": "Dhee — open-source self-evolving memory and context router for AI agents. #1 on LongMemEval recall (R@1 94.8% / R@5 99.4%). Fat skills, thin tokens.",
   "requestFramePermissions": []
 }
