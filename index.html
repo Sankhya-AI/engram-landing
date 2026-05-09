@@ -3,59 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dhee — Self-Evolving Memory & Context Router for AI Agents | #1 LongMemEval Recall</title>
+    <title>Dhee — Context Manager for Coding Agents</title>
     <meta
       name="description"
-      content="Dhee cuts LLM tokens by 90% and leads LongMemEval at R@5 99.4%. Open-source self-evolving memory and context router for Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, and any MCP client. Future-proof your CLAUDE.md and skills library."
+      content="Dhee decides what your coding agent should see, remember, and forget each turn, so it stays cheap, reliable, and auditable."
     />
     <meta
       name="keywords"
       content="Dhee, AI agent memory, LLM memory layer, Claude Code memory, CLAUDE.md optimization, AGENTS.md, context router, context compression, token optimization, MCP server, model context protocol, LongMemEval, vector memory, RAG for agents, self-evolving memory, agent cognition, Mem0 alternative, Letta alternative, MemPalace alternative, Cursor memory, Codex memory, Gemini CLI memory, Aider memory, Cline memory"
     />
     <link rel="icon" type="image/png" href="/sensai-logo.png" />
-    <link rel="canonical" href="https://engram.sensai.co.in/" />
+    <link rel="canonical" href="https://dhee.sankhyaailabs.com/" />
 
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Dhee" />
-    <meta property="og:url" content="https://engram.sensai.co.in/" />
-    <meta property="og:title" content="Dhee — Self-Evolving Memory & Context Router for AI Agents" />
+    <meta property="og:url" content="https://dhee.sankhyaailabs.com/" />
+    <meta property="og:title" content="Dhee — Context Manager for Coding Agents" />
     <meta
       property="og:description"
-      content="Cut LLM tokens by 90%. #1 on LongMemEval recall (R@5 99.4%). Open-source memory + context router for Claude Code, Cursor, Codex, Gemini CLI, Aider — any MCP client."
+      content="A Sankhya AI Labs product that controls what enters the prompt, what stays in memory, and what gets forgotten before it becomes a liability."
     />
-    <meta property="og:image" content="https://engram.sensai.co.in/og-image.png" />
+    <meta property="og:image" content="https://dhee.sankhyaailabs.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Dhee — Self-Evolving Memory & Context Router for AI Agents" />
+    <meta name="twitter:title" content="Dhee — Context Manager for Coding Agents" />
     <meta
       name="twitter:description"
-      content="Cut LLM tokens by 90%. #1 on LongMemEval recall (R@5 99.4%). Works with Claude Code, Cursor, Codex, Gemini CLI, Aider — any MCP client."
+      content="Dhee decides what your coding agent should see, remember, and forget each turn."
     />
-    <meta name="twitter:image" content="https://engram.sensai.co.in/og-image.png" />
+    <meta name="twitter:image" content="https://dhee.sankhyaailabs.com/og-image.png" />
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Dhee",
-      "description": "Open-source self-evolving memory and context-router for LLM-powered AI agents. Cuts token usage by 90% and leads the LongMemEval benchmark at R@5 99.4%.",
-      "url": "https://engram.sensai.co.in/",
+      "description": "Dhee is a context manager for coding agents. It decides what the model should see, remember, and forget each turn so agent sessions stay cheap, reliable, and auditable.",
+      "url": "https://dhee.sankhyaailabs.com/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "macOS, Linux, Windows",
       "offers": {
         "@type": "Offer",
-        "price": "0",
+        "price": "5",
         "priceCurrency": "USD"
       },
       "author": {
         "@type": "Organization",
-        "name": "Sankhya AI",
+        "name": "Sankhya AI Labs",
         "url": "https://github.com/Sankhya-AI"
       },
       "codeRepository": "https://github.com/Sankhya-AI/Dhee",
@@ -66,6 +66,9 @@
         "context router",
         "context compression",
         "token optimization",
+        "context manager",
+        "repo memory",
+        "shared context",
         "self-evolving memory",
         "Claude Code",
         "MCP server",
@@ -85,7 +88,7 @@
           "name": "What is Dhee?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Dhee is an open-source, self-evolving memory and context-router for LLM-powered AI agents. It sits between your agent (Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, Goose, or any MCP client) and the model, chunks and indexes your CLAUDE.md/AGENTS.md/skills library into decay-aware memory, digests fat tool output at the source, and tunes its own retrieval policy over time."
+            "text": "Dhee is a context manager for coding agents. It sits between your agent and the model, decides what context should be admitted, keeps useful memory linked to evidence, and suppresses stale transcript and tool-output bloat."
           }
         },
         {
@@ -136,7 +139,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Geist:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <script type="importmap">
@@ -160,18 +163,18 @@
     <div id="root"></div>
     <noscript>
       <article>
-        <h1>Dhee — Self-Evolving Memory & Context Router for AI Agents</h1>
+        <h1>Dhee — Context Manager for Coding Agents</h1>
         <p>
-          Dhee is an open-source memory and context-router layer for LLM agents. It cuts token usage by 90%+ on
-          Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, and any MCP-compatible client — and leads the
-          LongMemEval benchmark at R@1 94.8% and R@5 99.4% on the full 500-question set.
+          Dhee is a Sankhya AI Labs product that decides what your coding agent should see,
+          remember, and forget each turn, so Codex, Claude Code, and MCP-native agents stay cheap,
+          reliable, and auditable.
         </p>
         <h2>What Dhee does</h2>
         <ul>
-          <li><strong>Self-evolving memory:</strong> chunks your CLAUDE.md, AGENTS.md, and skills library into decay-aware vector memory; injects only the ~300 relevant tokens per turn.</li>
-          <li><strong>Context router:</strong> digests Read, Bash, and subagent output at source — a 10 MB git log becomes a 40-token summary with a pointer the model can expand if needed.</li>
-          <li><strong>Perfect recall, years in:</strong> Ebbinghaus decay, auto-promotion, and insight synthesis keep the per-turn cost flat even as memory crosses 50,000 entries.</li>
-          <li><strong>Self-tuning policy:</strong> the retrieval depth per tool and per intent is learned from actual expansion patterns, not hand-configured.</li>
+          <li><strong>Compiled state:</strong> keeps the current goal, plan, decisions, files, and receipts compact.</li>
+          <li><strong>Context admission:</strong> routes relevant project rules and suppresses stale transcript or tool output.</li>
+          <li><strong>Pointer evidence:</strong> stores large raw outputs behind expandable references instead of dumping them into the prompt.</li>
+          <li><strong>Auditable memory:</strong> links assertions back to admitted evidence so old assumptions can be corrected.</li>
         </ul>
         <h2>Works with</h2>
         <p>Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, Goose, Claude Desktop, Python SDK, CLI, and Docker.</p>

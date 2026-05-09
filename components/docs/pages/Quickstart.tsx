@@ -4,7 +4,7 @@ export const Quickstart: React.FC = () => {
   return (
     <section>
       <h1>Quickstart</h1>
-      <p>Get Dhee working in a few minutes with the smaller product surface.</p>
+      <p>Get the Dhee developer brain running locally, then link a repo when you want shared context.</p>
 
       <h2>1. Install Dhee</h2>
       <pre className="docs-code">
@@ -90,9 +90,9 @@ docker compose up -d`}</code>
 
       <h2>Next Steps</h2>
       <ul>
-        <li><a href="/docs/mcp-server/">MCP Server</a> for the leanest integration path</li>
-        <li><a href="/docs/sdk/">Python SDK</a> for application-level integration</li>
-        <li><a href="/docs/architecture/">Architecture</a> for the Engram and Buddhi split</li>
+        <li><a href="#mcp-server">MCP Server</a> for the leanest integration path</li>
+        <li><a href="#sdk">Python SDK</a> for application-level integration</li>
+        <li><a href="#architecture">Architecture</a> for the memory and context-routing model</li>
       </ul>
     </section>
   );

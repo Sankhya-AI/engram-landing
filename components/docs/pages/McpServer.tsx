@@ -79,7 +79,7 @@ command = "dhee-mcp"`}</code>
       </p>
 
       <div className="callout tip">
-        If you want direct application integration instead of MCP, go to <a href="/docs/sdk/">Python SDK</a>.
+        If you want direct application integration instead of MCP, go to <a href="#sdk">Python SDK</a>.
       </div>
     </section>
   );

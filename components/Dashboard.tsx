@@ -107,9 +107,9 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-12">
       <div className="text-center mb-12">
-        <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">How Dhee works</p>
+        <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Onboarding</p>
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-4">
-          The full flow —{' '}
+          From install to shared repo brain —{' '}
           <span
             style={{
               background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
@@ -118,12 +118,12 @@ export const Dashboard: React.FC = () => {
               backgroundClip: 'text',
             }}
           >
-            install to self-tune.
+            the path to Enterprise.
           </span>
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
-          Four steps. One install, then every prompt gets selective context, every fat tool call gets digested at
-          source, and the retrieval policy keeps tuning itself to your actual workflow.
+          Start with the local developer brain. As your team adopts Dhee, reviewed memories can become shared repo
+          context, and Enterprise adds governance, readiness scoring, telemetry, and secure routing.
         </p>
       </div>
 

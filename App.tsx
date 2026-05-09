@@ -1,76 +1,95 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { GridLines } from './components/GridLines';
-import { Demo } from './components/Demo';
-import { ProofPoints } from './components/ProofPoints';
-import { Features } from './components/Features';
-import { RibbonBackground } from './components/RibbonBackground';
-import { MemoryStack } from './components/MemoryStack';
-import { Integrations } from './components/Integrations';
-import { Dashboard } from './components/Dashboard';
-import { CTA } from './components/CTA';
+import { ContextBrainSection } from './components/ContextBrainSection';
+import { Pricing } from './components/Pricing';
+
+function DheeHeader() {
+  const [inverted, setInverted] = useState(false);
+  const frameRef = useRef(0);
+
+  useEffect(() => {
+    const updateHeaderTheme = () => {
+      const inverseSections = Array.from(document.querySelectorAll('[data-dhee-navbar-inverse]'));
+      const shouldInvert = inverseSections.some((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top < 76 && rect.bottom > 0;
+      });
+
+      setInverted(shouldInvert);
+    };
+
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = requestAnimationFrame(updateHeaderTheme);
+    };
+
+    updateHeaderTheme();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+
+    return () => {
+      cancelAnimationFrame(frameRef.current);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+    };
+  }, []);
+
+  return (
+    <header className="dhee-site-header" data-theme={inverted ? 'dark' : 'light'}>
+      <div className="dhee-header-cap" aria-hidden="true" />
+      <div className="dhee-header-bar">
+        <a className="dhee-brand" href="/" aria-label="Dhee home">
+          <img src="/sensai-logo.png" alt="" width="34" height="34" />
+          <span>dhee</span>
+          <i>/</i>
+          <small>by sankhya labs</small>
+        </a>
+        <nav className="dhee-nav" aria-label="Dhee navigation">
+          <a href="/">Dhee</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a className="dhee-nav-cta" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
+            Start free <span aria-hidden="true">-&gt;</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function DheeFooter() {
+  return (
+    <footer className="dhee-site-footer">
+      <span>Dhee</span>
+      <a href="https://www.sankhyaailabs.com/" target="_blank" rel="noreferrer">
+        Sankhya AI Labs
+      </a>
+      <a href="/docs/">docs</a>
+      <a href="/pricing/">pricing</a>
+    </footer>
+  );
+}
 
 export default function App() {
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const isPricingPage = path.replace(/\/$/, '') === '/pricing';
+
   return (
-    <div className="page-shell">
-      <div className="ribbon-layer opacity-95">
-        <RibbonBackground />
-      </div>
-
-      <GridLines />
-
-      <div className="relative z-10 flex flex-col">
-        <Navbar />
-
-        <main className="relative">
-          <Hero />
-
-          <section id="demo" className="bg-white/94 border-t border-black/5 py-20">
-            <Demo />
+    <div className="dhee-site-shell">
+      <DheeHeader />
+      <main>
+        {isPricingPage ? (
+          <section className="dhee-page-frame" aria-label="Dhee pricing">
+            <Pricing />
           </section>
-
-          <section id="benchmarks" className="bg-[#fdfbf9] border-t border-black/5 py-20">
-            <ProofPoints />
-          </section>
-
-          <section id="capabilities" className="bg-white/92 border-t border-black/5 py-20">
-            <Features />
-          </section>
-
-          <section id="loop" className="bg-white/94 border-t border-black/5 py-20">
-            <Dashboard />
-          </section>
-
-          <section id="architecture" className="bg-[#fdfbf9] border-t border-black/5 py-20">
-            <MemoryStack />
-          </section>
-
-          <section id="interfaces" className="bg-white border-t border-black/5 py-20">
-            <Integrations />
-          </section>
-
-          <section id="get-started" className="bg-[#fdf8f5] py-0">
-            <CTA />
-          </section>
-        </main>
-
-        <footer className="py-10 px-6 text-center text-xs text-gray-400 bg-white/85">
-          <div className="max-w-6xl mx-auto border-t border-black/5 pt-6">
-            <p>
-              &copy; 2026 Dhee - <a
-                href="https://www.sankhyaailabs.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="text-gray-500 hover:text-gray-700 underline underline-offset-2"
-              >
-                A Sankhya AI Labs product.
-              </a>
-            </p>
-          </div>
-        </footer>
-      </div>
+        ) : (
+          <ContextBrainSection />
+        )}
+      </main>
+      <DheeFooter />
       <Analytics />
     </div>
   );

@@ -5,16 +5,10 @@ export const Introduction: React.FC = () => {
     <section>
       <h1>Dhee Documentation</h1>
       <p>
-        Dhee is the simpler product direction: a cognition layer that turns an existing agent into a
-        better one. Instead of a broad platform with dashboards and orchestration surfaces, Dhee focuses
-        on four core operations that help agents remember, learn from outcomes, and continue across sessions.
+        Dhee is the product brain for AI-native engineering teams. It gives coding agents durable memory,
+        repo-aware context routing, and handoff continuity so Codex, Claude Code, Cursor, and MCP clients
+        can start with the right product context instead of reconstructing it every session.
       </p>
-
-      <div className="callout note">
-        <strong>Product simplification</strong> — if you saw older Engram docs about dashboards, task boards,
-        orchestration, or deep memory internals, those are no longer the center of the product. See
-        {' '}<a href="/docs/what-changed/">What Changed</a>.
-      </div>
 
       <h2>The Four Core Operations</h2>
       <table className="docs-table">
@@ -69,24 +63,24 @@ export const Introduction: React.FC = () => {
           <tr>
             <td>MCP</td>
             <td>Claude Code, Cursor, Codex, Claude Desktop</td>
-            <td><a href="/docs/mcp-server/">MCP Server</a></td>
+            <td><a href="#mcp-server">MCP Server</a></td>
           </tr>
           <tr>
             <td>Python SDK</td>
             <td>Embedding Dhee directly into your runtime</td>
-            <td><a href="/docs/sdk/">Python SDK</a></td>
+            <td><a href="#sdk">Python SDK</a></td>
           </tr>
           <tr>
             <td>Architecture</td>
-            <td>Understanding Engram and Buddhi under the hood</td>
-            <td><a href="/docs/architecture/">Architecture</a></td>
+            <td>Understanding memory, routing, and repo-shared context under the hood</td>
+            <td><a href="#architecture">Architecture</a></td>
           </tr>
         </tbody>
       </table>
 
       <div className="callout tip">
-        <strong>Start here:</strong> go to <a href="/docs/quickstart/">Quickstart</a> if you want to wire Dhee
-        into a tool today, or <a href="/docs/research/">Research</a> if you want the HyperAgents rationale first.
+        <strong>Start here:</strong> go to <a href="#quickstart">Quickstart</a> if you want to wire Dhee
+        into a tool today, or <a href="#research">Research</a> if you want the memory rationale first.
       </div>
     </section>
   );

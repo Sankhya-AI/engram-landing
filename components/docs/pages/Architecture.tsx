@@ -5,9 +5,9 @@ export const Architecture: React.FC = () => {
     <section>
       <h1>Architecture</h1>
       <p>
-        Dhee is intentionally smaller now. Conceptually, it has one external loop and two internal layers:
-        the agent uses four operations, while Dhee is split into Engram for memory storage and Buddhi for
-        cognition.
+        Dhee has one external loop and two internal responsibilities: memory persistence and context routing.
+        The agent uses four operations, while Dhee handles the storage, ranking, outcome tracking, and repo
+        continuity underneath.
       </p>
 
       <div className="docs-diagram">
@@ -39,10 +39,10 @@ export const Architecture: React.FC = () => {
 
           <rect x="90" y="242" width="400" height="118" rx="16" fill="#ffffff" stroke="url(#dheeStroke)" strokeWidth="1.5" />
           <text x="290" y="274" textAnchor="middle" fontSize="15" fontFamily="Space Grotesk, sans-serif" fill="#1a1a1a">
-            Engram
+            Memory Store
           </text>
           <text x="290" y="301" textAnchor="middle" fontSize="12" fontFamily="Manrope, sans-serif" fill="#4b5563">
-            Memory store
+            Durable local and repo memory
           </text>
           <text x="290" y="324" textAnchor="middle" fontSize="11" fontFamily="Manrope, sans-serif" fill="#6b7280">
             SQLite + vector index
@@ -53,22 +53,22 @@ export const Architecture: React.FC = () => {
 
           <rect x="410" y="242" width="400" height="118" rx="16" fill="#ffffff" stroke="url(#dheeStroke)" strokeWidth="1.5" />
           <text x="610" y="274" textAnchor="middle" fontSize="15" fontFamily="Space Grotesk, sans-serif" fill="#1a1a1a">
-            Buddhi
+            Context Router
           </text>
           <text x="610" y="301" textAnchor="middle" fontSize="12" fontFamily="Manrope, sans-serif" fill="#4b5563">
-            Cognition engine
+            Ranking, policies, outcomes
           </text>
           <text x="610" y="324" textAnchor="middle" fontSize="11" fontFamily="Manrope, sans-serif" fill="#6b7280">
             Performance tracking, insights, intentions
           </text>
           <text x="610" y="344" textAnchor="middle" fontSize="11" fontFamily="Manrope, sans-serif" fill="#6b7280">
-            Trend warnings and prospective memory
+            Trend warnings and task continuity
           </text>
 
           <line x1="450" y1="360" x2="450" y2="395" stroke="#9ca3af" strokeWidth="2" />
           <rect x="270" y="395" width="360" height="28" rx="10" fill="#f9fafb" stroke="#e5e7eb" />
           <text x="450" y="414" textAnchor="middle" fontSize="10" fontFamily="Manrope, sans-serif" fill="#6b7280">
-            ~/.dhee/history.db · ~/.dhee/zvec · ~/.dhee/buddhi/*
+            ~/.dhee/history.db · ~/.dhee/zvec · repo/.dhee/context/*
           </text>
         </svg>
       </div>
@@ -84,13 +84,13 @@ export const Architecture: React.FC = () => {
         </thead>
         <tbody>
           <tr>
-            <td>Engram</td>
+            <td>Memory Store</td>
             <td>Memory persistence and retrieval</td>
             <td>Facts, history, embeddings, recall ranking</td>
           </tr>
           <tr>
-            <td>Buddhi</td>
-            <td>Meta-knowledge about performance and future action</td>
+            <td>Context Router</td>
+            <td>Meta-knowledge about performance, policy, and future action</td>
             <td>Warnings, insights, what worked, remember-to triggers</td>
           </tr>
           <tr>
@@ -106,7 +106,7 @@ export const Architecture: React.FC = () => {
         <li>The agent calls <code>context()</code> at the start of a task.</li>
         <li>Dhee returns relevant memories, warnings, insights, and triggered intentions.</li>
         <li>The agent stores facts with <code>remember()</code> and retrieves context with <code>recall()</code>.</li>
-        <li>At the end, <code>checkpoint()</code> writes the digest and updates Buddhi with outcomes and learnings.</li>
+        <li>At the end, <code>checkpoint()</code> writes the digest and updates outcomes, insights, and future triggers.</li>
       </ol>
 
       <h2>On-Disk Layout</h2>
@@ -114,15 +114,20 @@ export const Architecture: React.FC = () => {
         <code>{`~/.dhee/
 ├── history.db
 ├── zvec/
-└── buddhi/
+├── router_policy.json
+└── outcomes/
     ├── insights.jsonl
     ├── intentions.jsonl
-    └── performance.json`}</code>
+    └── performance.json
+
+repo/.dhee/context/
+├── manifest.json
+└── entries.jsonl`}</code>
       </pre>
 
       <div className="callout tip">
-        The product is simpler on purpose: Dhee is not trying to be your full agent platform. It is the
-        cognition layer that sits underneath one.
+        Dhee is not trying to be the whole agent platform. It is the product brain that sits underneath
+        your agent surfaces and makes them start sharper.
       </div>
     </section>
   );

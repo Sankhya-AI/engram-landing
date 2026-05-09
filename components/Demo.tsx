@@ -7,7 +7,7 @@ export const Demo: React.FC = () => {
       <div className="text-center mb-10">
         <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">See it live</p>
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-4">
-          Install once.{' '}
+          Watch the product brain form.{' '}
           <span
             style={{
               background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
@@ -16,12 +16,12 @@ export const Demo: React.FC = () => {
               backgroundClip: 'text',
             }}
           >
-            Watch your tokens shrink.
+            Then reuse it across agents.
           </span>
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
-          45-second walkthrough: curl install → Claude Code session → selective inject → digested tool output →
-          self-tune policy. All local, no cloud.
+          Walkthrough: curl install → agent session → selective inject → digested tool output → handoff-ready context.
+          Free local core first, shared Enterprise memory when a team needs it.
         </p>
       </div>
 

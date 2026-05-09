@@ -5,9 +5,8 @@ export const Research: React.FC = () => {
     <section>
       <h1>Research</h1>
       <p>
-        The simpler Dhee product is guided by a more focused research stance: give agents the practical
-        cognition capabilities that help future sessions improve, instead of exposing every possible memory
-        subsystem as product surface area.
+        Dhee is guided by a focused research stance: useful agents need practical long-term memory,
+        context selection, and outcome learning that carries across sessions, tools, and teammates.
       </p>
 
       <h2>Primary Direction: HyperAgents</h2>
@@ -60,15 +59,8 @@ export const Research: React.FC = () => {
         </tbody>
       </table>
 
-      <h2>What We De-Emphasized</h2>
-      <p>
-        The older docs described a wider platform with dashboards, orchestration, staged writes, and many
-        specialized memory sublayers. The current product focus is smaller: ship the cognition loop that
-        most directly supports HyperAgent-like behavior.
-      </p>
-
       <div className="callout tip">
-        If you want the implementation view of this simplification, see <a href="/docs/architecture/">Architecture</a>.
+        If you want the implementation view, see <a href="#architecture">Architecture</a>.
       </div>
     </section>
   );

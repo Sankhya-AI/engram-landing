@@ -1,33 +1,95 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BackgroundMeteors } from './scrollx/BackgroundMeteors';
 import { AnimatedButton } from './scrollx/AnimatedButton';
 
 const heroStats = [
-  { label: 'Tokens per turn', value: '~300', note: 'vs 5,700 raw CLAUDE.md' },
-  { label: 'LongMemEval R@5', value: '99.4%', note: '#1 on full 500 questions' },
-  { label: 'Session cost', value: '~$0.004', note: '>100× ROI on a 20-turn Opus' },
+  { label: 'Open-source core', value: 'Free', note: 'local developer memory and context routing' },
+  { label: 'Enterprise', value: '$5', note: 'per seat for shared repo and product memory' },
+  { label: 'LongMemEval R@5', value: '99.4%', note: 'benchmark proof for durable recall' },
+];
+
+const terminalScreens = [
+  {
+    label: 'onboard',
+    title: 'Developer Brain',
+    lines: [
+      '$ curl -fsSL github.com/Sankhya-AI/Dhee/install.sh | sh',
+      'ok hooks installed for Claude Code + Codex',
+      'ok MCP router registered for Cursor and desktop clients',
+      'ok repo docs ingested: AGENTS.md, CLAUDE.md, README.md',
+      'next: dhee link /repo to create shared context',
+    ],
+  },
+  {
+    label: 'route',
+    title: 'Context Router',
+    lines: [
+      '$ dhee context compile --agent codex --task "pricing page"',
+      'read repo state: 18 entries, 247 local memories',
+      'match Product/Pricing/Enterprise docs at confidence 0.91',
+      'inject 312 tokens, suppress 5,388 irrelevant tokens',
+      'result: agent starts warm with the right product brain',
+    ],
+  },
+  {
+    label: 'share',
+    title: 'Team Memory',
+    lines: [
+      '$ dhee handoff --repo . --share',
+      'capture decisions, commands, build output, open risks',
+      'broadcast to active agents: UI, backend, docs',
+      'promote reviewed memories into .dhee/context/entries.jsonl',
+      'result: fresh clones are no longer cold starts',
+    ],
+  },
+  {
+    label: 'enterprise',
+    title: 'Dhee Enterprise',
+    lines: [
+      '$ dhee enterprise onboard --seats 24',
+      'plan: $5 / seat / month',
+      'enable org memory, repo brain, readiness checks',
+      'connect GitHub org, docs, secure context routing',
+      'ready: every coding agent starts with company context',
+    ],
+  },
 ];
 
 export const Hero: React.FC = () => {
+  const [screenIndex, setScreenIndex] = useState(0);
+  const activeScreen = terminalScreens[screenIndex];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setScreenIndex((current) => (current + 1) % terminalScreens.length);
+    }, 4200);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const terminalText = useMemo(() => activeScreen.lines.join('\n'), [activeScreen.lines]);
+
   return (
-    <section id="platform" className="relative">
-      <BackgroundMeteors className="min-h-[82vh] flex items-center justify-center px-6 md:px-12 pt-24 pb-24 text-center">
-        <div className="max-w-5xl w-full mx-auto flex flex-col items-center">
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-black/10 bg-white/92 mb-8 shadow-[0_12px_30px_rgba(0,0,0,0.04)]">
-            <img src="/sensai-logo.png" alt="Sensai logo" className="w-8 h-8 object-contain" />
-            <span className="text-[11px] uppercase tracking-[0.24em] text-gray-500">
-              #1 on LongMemEval recall — R@1 94.8% / R@5 99.4%
+    <section id="product" className="relative">
+      <BackgroundMeteors className="min-h-[82vh] flex items-center px-6 md:px-12 pt-24 pb-20">
+        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[0.92fr_0.78fr] gap-12 lg:gap-16 items-center">
+          <div className="hero-copy flex w-full max-w-full flex-col items-start text-left min-w-0">
+          <div className="inline-flex max-w-full min-w-0 flex-wrap sm:flex-nowrap items-center gap-3 px-4 py-2 rounded-2xl sm:rounded-full border border-black/10 bg-white/92 mb-8 shadow-[0_12px_30px_rgba(0,0,0,0.04)]">
+            <img src="/sensai-logo.png" alt="Dhee logo" className="w-8 h-8 object-contain" />
+            <span className="min-w-0 break-words text-[10px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.24em] leading-relaxed text-gray-500">
+              Dhee product brain
             </span>
           </div>
 
-          <p className="text-[11px] uppercase tracking-[0.35em] text-gray-400 mb-6 text-center">
-            Self-evolving memory & context router for AI agents
+          <p className="w-full max-w-full text-[10px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.35em] leading-relaxed text-gray-400 mb-6">
+            Product brain for AI-native engineering teams
           </p>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.02] text-gray-900 mb-6 text-center max-w-5xl">
-            Fat skills.
+          <h1 className="w-full max-w-4xl text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.02] text-gray-900 mb-6">
+            One shared brain
             <br />
             <span
+              className="block max-w-full"
               style={{
                 background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
                 WebkitBackgroundClip: 'text',
@@ -35,46 +97,43 @@ export const Hero: React.FC = () => {
                 backgroundClip: 'text',
               }}
             >
-              Thin tokens.
+              for every coding
+              <br className="sm:hidden" /> agent.
             </span>
           </h1>
 
-          <p className="text-sm md:text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mb-5 text-center">
-            Dhee is an open-source memory and context-router layer that sits between your agent and the LLM. Your
-            500-line <code className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700 text-xs font-mono">CLAUDE.md</code>,{' '}
-            <code className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700 text-xs font-mono">AGENTS.md</code>, and
-            skills library become vector-indexed, decay-aware memory. A 10&nbsp;MB{' '}
-            <code className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700 text-xs font-mono">git log</code> becomes a
-            40-token digest. The agent sees only what it needs, when it needs it.
+          <p className="w-full max-w-3xl text-sm md:text-lg text-gray-600 leading-relaxed mb-5">
+            Dhee captures what Codex, Claude Code, Cursor, repos, tools, and teammates learn, then routes the right
+            context into the next agent before anyone starts cold. Start with the open-source developer brain; upgrade
+            to Dhee Enterprise when repo memory becomes team infrastructure.
           </p>
 
-          <p className="text-xs md:text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto mb-8 text-center">
-            Works with Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, Goose — any MCP client.
+          <p className="w-full max-w-2xl text-xs md:text-sm text-gray-500 leading-relaxed mb-8">
+            Developer memory, shared repo context, secure routing, docs, GitHub, and $5 per seat
+            enterprise pricing.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <AnimatedButton className="bg-black text-white hover:bg-gray-900" glow asChild>
               <a href="#get-started">
-                Install Dhee
+                Start free
               </a>
             </AnimatedButton>
             <a
-              href="https://github.com/Sankhya-AI/Dhee"
-              target="_blank"
-              rel="noreferrer"
+              href="/pricing/"
               className="px-6 py-3 rounded-sm text-sm font-semibold border border-black/15 text-gray-600 hover:text-gray-900 hover:border-black/40 transition-all"
             >
-              View on GitHub
+              See pricing
             </a>
             <a
-              href="#benchmarks"
+              href="/docs/"
               className="px-6 py-3 rounded-sm text-sm font-semibold text-gray-500 hover:text-gray-900 transition-all"
             >
-              See the benchmark →
+              Read docs →
             </a>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl mt-14">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl mt-12">
             {heroStats.map((stat) => (
               <div
                 key={stat.label}
@@ -85,6 +144,65 @@ export const Hero: React.FC = () => {
                 <div className="text-[11px] text-gray-400 leading-relaxed">{stat.note}</div>
               </div>
             ))}
+          </div>
+        </div>
+
+          <div className="w-full">
+            <div className="rounded-2xl border border-black/10 bg-[#0d0d0d] shadow-[0_26px_80px_rgba(0,0,0,0.22)] overflow-hidden">
+              <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 bg-white/[0.03]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-mono">
+                  {activeScreen.label}
+                </div>
+              </div>
+
+              <div className="px-5 py-5">
+                <div className="flex items-center justify-between gap-4 mb-5">
+                  <div>
+                    <div className="text-[11px] uppercase tracking-[0.22em] text-[#e8722a] font-mono mb-1">
+                      live terminal
+                    </div>
+                    <h2 className="text-white text-xl font-semibold tracking-tight">{activeScreen.title}</h2>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-1.5">
+                    {terminalScreens.map((screen, index) => (
+                      <button
+                        key={screen.label}
+                        type="button"
+                        aria-label={`Show ${screen.title}`}
+                        onClick={() => setScreenIndex(index)}
+                        className={`h-1.5 rounded-full transition-all ${
+                          index === screenIndex ? 'w-8 bg-[#e8722a]' : 'w-3 bg-white/18 hover:bg-white/30'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <pre className="min-h-[220px] whitespace-pre-wrap break-words font-mono text-[12px] md:text-[13px] leading-7 text-gray-200">
+                  {terminalText}
+                </pre>
+              </div>
+
+              <div className="grid grid-cols-3 border-t border-white/10 bg-white/[0.03] text-center">
+                <div className="px-3 py-4">
+                  <div className="text-white font-semibold">312</div>
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-gray-500">tokens</div>
+                </div>
+                <div className="border-x border-white/10 px-3 py-4">
+                  <div className="text-white font-semibold">4</div>
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-gray-500">agents</div>
+                </div>
+                <div className="px-3 py-4">
+                  <div className="text-white font-semibold">$5</div>
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-gray-500">seat</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </BackgroundMeteors>

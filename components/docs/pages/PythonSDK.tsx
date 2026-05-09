@@ -91,7 +91,7 @@ pip install dhee[ollama,mcp]   # Ollama`}</code>
       </ul>
 
       <div className="callout tip">
-        If you want the smallest integration path, use <a href="/docs/mcp-server/">MCP Server</a> first.
+        If you want the smallest integration path, use <a href="#mcp-server">MCP Server</a> first.
       </div>
     </section>
   );

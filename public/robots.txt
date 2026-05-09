@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://engram.sensai.co.in/sitemap.xml
+Sitemap: https://dhee.sankhyaailabs.com/sitemap.xml

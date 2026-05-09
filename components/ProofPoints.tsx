@@ -43,7 +43,7 @@ export const ProofPoints: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-12">
       <div className="text-center mb-10">
-        <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Benchmarks</p>
+        <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Proof</p>
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-4">
           #1 on LongMemEval —{' '}
           <span

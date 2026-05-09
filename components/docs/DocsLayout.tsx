@@ -15,38 +15,36 @@ const navGroups: NavGroup[] = [
   {
     title: 'Overview',
     items: [
-      { label: 'Introduction', href: '/docs/', key: 'introduction' },
-      { label: 'What Changed', href: '/docs/what-changed/', key: 'what-changed' },
-      { label: 'Quickstart', href: '/docs/quickstart/', key: 'quickstart' },
+      { label: 'Introduction', href: '/docs/#introduction', key: 'introduction' },
+      { label: 'Quickstart', href: '/docs/#quickstart', key: 'quickstart' },
     ],
   },
   {
     title: 'Interfaces',
     items: [
-      { label: 'MCP Server', href: '/docs/mcp-server/', key: 'mcp-server' },
-      { label: 'Python SDK', href: '/docs/sdk/', key: 'sdk' },
+      { label: 'MCP Server', href: '/docs/#mcp-server', key: 'mcp-server' },
+      { label: 'Python SDK', href: '/docs/#sdk', key: 'sdk' },
     ],
   },
   {
     title: 'Concepts',
     items: [
-      { label: 'Architecture', href: '/docs/architecture/', key: 'architecture' },
-      { label: 'Research', href: '/docs/research/', key: 'research' },
+      { label: 'Architecture', href: '/docs/#architecture', key: 'architecture' },
+      { label: 'Research', href: '/docs/#research', key: 'research' },
     ],
   },
 ];
 
 export const DocsLayout: React.FC<{
-  activeKey: string;
   children: React.ReactNode;
-}> = ({ activeKey, children }) => {
+}> = ({ children }) => {
   return (
     <div className="docs-page">
       <header className="docs-header">
         <a className="docs-logo" href="/docs/">
           <img
             src="/sensai-logo.png"
-            alt="Sensai logo"
+            alt="Dhee logo"
             width="24"
             height="24"
             style={{ objectFit: 'contain', borderRadius: 9999 }}
@@ -74,7 +72,7 @@ export const DocsLayout: React.FC<{
               <div key={group.title} className="docs-nav-group">
                 <div className="docs-nav-title">{group.title}</div>
                 {group.items.map((item) => (
-                  <a key={item.key} href={item.href} className={item.key === activeKey ? 'active' : ''}>
+                  <a key={item.key} href={item.href}>
                     {item.label}
                   </a>
                 ))}
@@ -86,7 +84,7 @@ export const DocsLayout: React.FC<{
         <main className="docs-content">
           {children}
           <div className="docs-footer">
-            Simple cognition for HyperAgents.{' '}
+            Product memory and context routing for AI-native engineering teams.{' '}
             <a href="https://www.sankhyaailabs.com/" target="_blank" rel="noreferrer">
               A Sankhya AI Labs product.
             </a>
