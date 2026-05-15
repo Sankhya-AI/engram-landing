@@ -4,7 +4,7 @@ import { AnimatedButton } from './scrollx/AnimatedButton';
 
 const heroStats = [
   { label: 'Open-source core', value: 'Free', note: 'local developer memory and context routing' },
-  { label: 'Enterprise', value: '$5', note: 'per seat for shared repo and product memory' },
+  { label: 'Team plan', value: '$5', note: 'per seat for shared repo context' },
   { label: 'LongMemEval R@5', value: '99.4%', note: 'benchmark proof for durable recall' },
 ];
 
@@ -26,7 +26,7 @@ const terminalScreens = [
     lines: [
       '$ dhee context compile --agent codex --task "pricing page"',
       'read repo state: 18 entries, 247 local memories',
-      'match Product/Pricing/Enterprise docs at confidence 0.91',
+      'match Product/Pricing/Team docs at confidence 0.91',
       'inject 312 tokens, suppress 5,388 irrelevant tokens',
       'result: agent starts warm with the right product brain',
     ],
@@ -43,14 +43,14 @@ const terminalScreens = [
     ],
   },
   {
-    label: 'enterprise',
-    title: 'Dhee Enterprise',
+    label: 'team',
+    title: 'Dhee Team',
     lines: [
-      '$ dhee enterprise onboard --seats 24',
+      '$ dhee team onboard --seats 24',
       'plan: $5 / seat / month',
-      'enable org memory, repo brain, readiness checks',
-      'connect GitHub org, docs, secure context routing',
-      'ready: every coding agent starts with company context',
+      'enable shared repo context and reviewed handoffs',
+      'connect GitHub org, docs, agent routing surfaces',
+      'ready: every coding agent starts with team context',
     ],
   },
 ];
@@ -105,12 +105,12 @@ export const Hero: React.FC = () => {
           <p className="w-full max-w-3xl text-sm md:text-lg text-gray-600 leading-relaxed mb-5">
             Dhee captures what Codex, Claude Code, Cursor, repos, tools, and teammates learn, then routes the right
             context into the next agent before anyone starts cold. Start with the open-source developer brain; upgrade
-            to Dhee Enterprise when repo memory becomes team infrastructure.
+            to the Team plan when repo context becomes shared infrastructure.
           </p>
 
           <p className="w-full max-w-2xl text-xs md:text-sm text-gray-500 leading-relaxed mb-8">
             Developer memory, shared repo context, secure routing, docs, GitHub, and $5 per seat
-            enterprise pricing.
+            team pricing.
           </p>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">

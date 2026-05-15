@@ -118,12 +118,12 @@ export const Dashboard: React.FC = () => {
               backgroundClip: 'text',
             }}
           >
-            the path to Enterprise.
+            the path to Team.
           </span>
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
           Start with the local developer brain. As your team adopts Dhee, reviewed memories can become shared repo
-          context, and Enterprise adds governance, readiness scoring, telemetry, and secure routing.
+          context, and the Team plan adds shared workflows, onboarding help, and reviewed handoffs.
         </p>
       </div>
 

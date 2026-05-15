@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
           href="/pricing/"
           className="hidden sm:inline-flex text-white bg-black hover:bg-gray-900 px-4 py-2 border border-black rounded-sm items-center gap-2"
         >
-          <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">$5 / seat</span>
+          <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">Team $5 / seat</span>
         </a>
       </div>
     </nav>

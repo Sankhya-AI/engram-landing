@@ -13,98 +13,85 @@ type PricingPlan = {
   notes: string[];
 };
 
-const contactEmail = 'hello@sensai.co.in';
+const contactEmail = 'admin@sankhyaailabs.com';
 const seatPrice = 5;
+const minimumSeats = 5;
 
 const plans: PricingPlan[] = [
   {
     name: 'Free OSS',
-    label: '01 / local',
+    label: '01 / individual',
     price: '$0',
     cadence: 'forever',
-    description: 'Run Dhee on your machine and see the context layer inside a real coding loop.',
+    description:
+      'The individual developer plan is the open-source Dhee plan: local-first, complete, and free.',
     cta: 'Start free',
     href: 'https://github.com/Sankhya-AI/Dhee',
     includes: [
-      'Local activity capture',
-      'Repo-scoped context files',
-      'CLI, Python, and MCP primitives',
-      'Session digests and handoffs',
+      'Local developer brain and context firewall',
+      'CLI, UI, Python, and MCP primitives',
+      'Claude Code, Codex, Cursor, and MCP workflows',
+      'Session digests, handoffs, and export/import',
     ],
-    notes: ['Self-hosted', 'No hosted sync', 'Community support'],
+    notes: ['No credit card', 'Runs on your machine', 'MIT open source'],
   },
   {
-    name: 'Developer',
-    label: '02 / personal',
+    name: 'Team',
+    label: '02 / shared repo context',
     price: '$5',
     cadence: 'per seat / month',
-    description: 'Hosted continuity for one developer moving across repos, agents, and interruptions.',
-    cta: 'Sign up',
-    href: '#enterprise-signup',
-    includes: [
-      'Personal cross-repo recall',
-      'Hosted private context sync',
-      'Live inbox and handoff signals',
-      'Artifact and markdown ingestion',
-      'Launch onboarding',
-    ],
-    notes: ['Single developer seat', 'Fair-use context routing', 'Upgrade to Enterprise any time'],
-  },
-  {
-    name: 'Enterprise',
-    label: '03 / team',
-    price: '$5',
-    cadence: 'per seat / month',
-    description: 'Shared memory for teams that need the same repo decisions and product context in every agent.',
-    cta: 'Start enterprise',
-    href: '#enterprise-signup',
+    description:
+      'For teams that want Dhee to carry repo context across developers, agents, sessions, and handoffs.',
+    cta: 'Join team list',
+    href: '#team-interest',
     featured: true,
     includes: [
-      'Shared repo and product brain',
-      'Shared tasks and broadcasts',
-      'Reviewed memory lifecycle',
-      'Team controls and audit-ready history',
-      'Readiness and savings telemetry',
-      'Secure context routing',
+      'Shared repo context across your team',
+      'Git-backed decisions, conventions, and handoffs',
+      'Shared tasks, broadcasts, and reviewed memories',
+      'Direct onboarding help from Sankhya AI Labs',
     ],
-    notes: ['Starts at 3 active developers', 'Hosted or private deployment', 'Launch rollout support included'],
+    notes: ['Minimum 5 seats', 'Starts at $25/month', 'We reach out by email'],
   },
 ];
 
 const comparison = [
-  ['Local developer brain', true, true, true],
-  ['Repo context entries', true, true, true],
-  ['Personal cross-repo recall', false, true, true],
-  ['Hosted context sync', false, true, true],
-  ['Shared repo and product brain', false, false, true],
-  ['Live shared tasks and broadcasts', false, false, true],
-  ['Reviewed memory lifecycle', false, false, true],
-  ['Team controls and telemetry', false, false, true],
+  ['Local developer brain', true, true],
+  ['Context firewall and router', true, true],
+  ['CLI, UI, Python, and MCP surfaces', true, true],
+  ['Handoffs and portable export/import', true, true],
+  ['Shared repo context across developers', false, true],
+  ['Team tasks and broadcasts', false, true],
+  ['Reviewed shared memory lifecycle', false, true],
+  ['Team onboarding support', false, true],
 ] as const;
 
 export const Pricing: React.FC = () => {
   const [signup, setSignup] = useState({
     email: '',
     company: '',
-    seats: '10',
+    seats: String(minimumSeats),
     github: '',
     surfaces: 'Codex, Claude Code, Cursor, MCP',
   });
 
-  const seats = Math.max(1, Number.parseInt(signup.seats, 10) || 1);
+  const seats = Math.max(minimumSeats, Number.parseInt(signup.seats, 10) || minimumSeats);
   const monthlyEstimate = seats * seatPrice;
 
   const signupHref = useMemo(() => {
-    const subject = 'Dhee Enterprise signup';
+    const subject = 'Dhee Team plan interest';
     const body = [
-      'Plan: Dhee Enterprise',
+      'Plan: Dhee Team',
       `Price: $${seatPrice}/seat/month`,
-      `Seats: ${seats}`,
+      `Minimum seats: ${minimumSeats}`,
+      `Expected seats: ${seats}`,
       `Estimated monthly: $${monthlyEstimate}`,
       `Work email: ${signup.email || '-'}`,
       `Company: ${signup.company || '-'}`,
       `GitHub org or repo: ${signup.github || '-'}`,
       `Agent surfaces: ${signup.surfaces || '-'}`,
+      '',
+      'Please reach out about sharing repo context across our team using Dhee.',
     ].join('\n');
 
     return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -121,17 +108,17 @@ export const Pricing: React.FC = () => {
         <div>
           <p className="ledger-meta">/ pricing</p>
           <h1>
-            Free local.
+            Free for devs.
             <br />
-            $5 for shared context.
+            $5 when teams share context.
           </h1>
           <p>
-            Dhee is free on your machine. Pay when memory has to follow your team
-            across agents, repos, and handoffs.
+            Dhee stays free for individual developers. Teams pay only when shared repo context becomes team
+            infrastructure across people, agents, and handoffs.
           </p>
           <div className="ledger-proofline" aria-label="Pricing summary">
             <span />
-            Free OSS / hosted developer / shared team memory
+            Free OSS for individuals / Team shared repo context
           </div>
           <div className="ledger-actions">
             <a href="#plans" className="ledger-btn ledger-btn-primary">
@@ -150,20 +137,20 @@ export const Pricing: React.FC = () => {
           </div>
           <dl>
             <div>
-              <dt>Free OSS</dt>
+              <dt>Individual dev</dt>
               <dd>$0 forever</dd>
             </div>
             <div>
-              <dt>Developer</dt>
+              <dt>Team plan</dt>
               <dd>$5 / seat</dd>
             </div>
             <div>
-              <dt>Enterprise</dt>
-              <dd>$5 / seat</dd>
+              <dt>Minimum</dt>
+              <dd>5 seats</dd>
             </div>
             <div>
               <dt>Team start</dt>
-              <dd>3 seats</dd>
+              <dd>$25 / month</dd>
             </div>
           </dl>
         </aside>
@@ -174,7 +161,7 @@ export const Pricing: React.FC = () => {
           <article key={plan.name} className={plan.featured ? 'featured' : undefined}>
             <div className="ledger-plan-top">
               <p>{plan.label}</p>
-              {plan.featured ? <span>self-serve</span> : null}
+              {plan.featured ? <span>team rollout</span> : null}
             </div>
             <h2>{plan.name}</h2>
             <div className="ledger-price">
@@ -218,15 +205,16 @@ export const Pricing: React.FC = () => {
           <p className="ledger-meta">/ why free exists</p>
           <h2>Free OSS is real Dhee, not a fake trial.</h2>
           <p>
-            A developer should be able to install Dhee, run real agent work, and understand the category before paying.
+            Individual developers should be able to install Dhee, run real agent work, open the UI, and understand the
+            category before paying anyone.
           </p>
         </article>
         <article>
-          <p className="ledger-meta">/ why enterprise exists</p>
+          <p className="ledger-meta">/ why teams pay</p>
           <h2>Teams pay when context becomes shared infrastructure.</h2>
           <p>
-            Shared repo memory, reviewed context, governance, telemetry, and secure routing matter once every agent
-            and teammate needs the same product understanding.
+            Shared repo memory, reviewed context, coordinated handoffs, and team onboarding matter once every teammate
+            and agent needs the same product understanding.
           </p>
         </article>
       </section>
@@ -235,7 +223,7 @@ export const Pricing: React.FC = () => {
         <div className="ledger-compare-head">
           <div>
             <p className="ledger-meta">/ plan comparison</p>
-            <h2>Enterprise starts where repeated context dumping ends.</h2>
+            <h2>Two plans. No paid individual tier.</h2>
           </div>
         </div>
 
@@ -245,15 +233,14 @@ export const Pricing: React.FC = () => {
               <tr>
                 <th>Capability</th>
                 <th>Free OSS</th>
-                <th>Developer</th>
-                <th>Enterprise</th>
+                <th>Team</th>
               </tr>
             </thead>
             <tbody>
-              {comparison.map(([label, free, individual, team]) => (
+              {comparison.map(([label, free, team]) => (
                 <tr key={label}>
                   <td>{label}</td>
-                  {[free, individual, team].map((included, index) => (
+                  {[free, team].map((included, index) => (
                     <td key={`${label}-${index}`}>
                       {included ? <span className="ledger-table-check" aria-label="Included" /> : <span aria-label="Not included">-</span>}
                     </td>
@@ -265,18 +252,18 @@ export const Pricing: React.FC = () => {
         </div>
       </section>
 
-      <section id="enterprise-signup" className="signup-page">
+      <section id="team-interest" className="signup-page">
         <div className="signup-hero">
           <div>
-            <p className="ledger-meta">/ enterprise signup</p>
-            <h1>Start Dhee Enterprise at $5 per seat.</h1>
+            <p className="ledger-meta">/ team interest</p>
+            <h1>Share repo context across your team.</h1>
             <p>
-              This local version opens a prefilled signup email while checkout is being wired.
-              You can still see the full self-serve motion.
+              Tell us where Dhee will run and how many seats you expect. We will reach out from
+              admin@sankhyaailabs.com to help your team get set up.
             </p>
           </div>
-          <aside className="signup-hero-aside" aria-label="Signup summary">
-            <span>plan / enterprise</span>
+          <aside className="signup-hero-aside" aria-label="Team plan summary">
+            <span>plan / team</span>
             <span>${seatPrice} / seat / month</span>
             <span>{seats} seats</span>
             <span>${monthlyEstimate.toLocaleString()} estimated monthly</span>
@@ -286,12 +273,13 @@ export const Pricing: React.FC = () => {
         <div className="signup-grid">
           <form onSubmit={handleSubmit} className="signup-form">
             <div>
-              <span className="signup-label">signup details</span>
+              <span className="signup-label">join the team list</span>
             </div>
             <div className="signup-fields">
               <label>
                 <span>Work email</span>
                 <input
+                  required
                   type="email"
                   value={signup.email}
                   onChange={(event) => setSignup((current) => ({ ...current, email: event.target.value }))}
@@ -313,9 +301,15 @@ export const Pricing: React.FC = () => {
                 <span>Seats</span>
                 <input
                   type="number"
-                  min="1"
+                  min={minimumSeats}
                   value={signup.seats}
                   onChange={(event) => setSignup((current) => ({ ...current, seats: event.target.value }))}
+                  onBlur={(event) => {
+                    const value = Number.parseInt(event.target.value, 10);
+                    if (!Number.isFinite(value) || value < minimumSeats) {
+                      setSignup((current) => ({ ...current, seats: String(minimumSeats) }));
+                    }
+                  }}
                 />
               </label>
               <label>
@@ -337,23 +331,23 @@ export const Pricing: React.FC = () => {
               </label>
             </div>
             <button type="submit" className="ledger-plan-cta primary signup-submit">
-              Open signup email -&gt;
+              Open interest email -&gt;
             </button>
           </form>
 
           <aside className="signup-summary">
-            <div className="signup-summary-top">/ launch quote</div>
+            <div className="signup-summary-top">/ team quote</div>
             <h2>${monthlyEstimate.toLocaleString()}</h2>
-            <p>{seats} seats x ${seatPrice} per seat per month.</p>
+            <p>{seats} seats x ${seatPrice} per seat per month. Minimum {minimumSeats} seats.</p>
             <div className="signup-console">
-              <div>next steps</div>
-              <p>dhee workspace invite</p>
+              <div>what we help set up</div>
+              <p>dhee ui and workspace flow</p>
               <p>repo context bootstrap</p>
               <p>agent routing setup</p>
               <p>shared memory review flow</p>
             </div>
-            <a className="signup-github" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
-              View GitHub
+            <a className="signup-github" href={`mailto:${contactEmail}?subject=Dhee%20Team%20plan%20interest`}>
+              {contactEmail}
             </a>
           </aside>
         </div>

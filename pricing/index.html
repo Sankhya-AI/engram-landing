@@ -3,28 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dhee Pricing — $5 Per Seat for Enterprise</title>
+    <title>Dhee Pricing — Free OSS and $5 Team Seats</title>
     <meta
       name="description"
-      content="Dhee pricing: free open-source developer memory, plus Developer and Enterprise plans at $5 per seat for hosted context, product memory, and secure context routing."
+      content="Dhee pricing: free open-source Dhee for individual developers, plus a Team plan at $5 per seat with a 5-seat minimum for shared repo context."
     />
     <link rel="icon" type="image/png" href="/sensai-logo.png" />
     <link rel="canonical" href="https://dhee.sankhyaailabs.com/pricing/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Dhee" />
     <meta property="og:url" content="https://dhee.sankhyaailabs.com/pricing/" />
-    <meta property="og:title" content="Dhee Pricing — $5 Per Seat for Enterprise" />
+    <meta property="og:title" content="Dhee Pricing — Free OSS and $5 Team Seats" />
     <meta
       property="og:description"
-      content="Start free with Dhee OSS. Upgrade to paid Dhee plans at $5 per seat for hosted product and repo memory."
+      content="Start free with Dhee OSS. Join the Team plan at $5 per seat when your developers need shared repo context."
     />
     <meta property="og:image" content="https://dhee.sankhyaailabs.com/og-image.png" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Product",
-      "name": "Dhee Enterprise",
-      "description": "Shared product and repo memory for AI-native engineering teams.",
+      "name": "Dhee Team",
+      "description": "Shared repo context for AI-native engineering teams.",
       "brand": {
         "@type": "Brand",
         "name": "Sankhya AI Labs"
@@ -37,7 +37,13 @@
           "@type": "UnitPriceSpecification",
           "price": "5",
           "priceCurrency": "USD",
-          "unitText": "seat per month"
+          "unitText": "seat per month",
+          "billingDuration": "P1M",
+          "eligibleQuantity": {
+            "@type": "QuantitativeValue",
+            "minValue": 5,
+            "unitText": "seat"
+          }
         }
       }
     }

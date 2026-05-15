@@ -22,8 +22,8 @@ export const CTA: React.FC = () => {
           </span>
         </h2>
         <p className="max-w-3xl mx-auto text-sm md:text-lg text-gray-600 text-center mb-8">
-          Install the free Developer Brain, read the docs, watch the demo, then start Dhee Enterprise at $5 per seat
-          when your team needs shared repo memory, secure context routing, and governed handoffs.
+          Install the free Developer Brain, read the docs, watch the demo, then join the Dhee Team plan at $5 per seat
+          when your team needs shared repo context, coordinated routing, and governed handoffs.
         </p>
 
         <div className="w-full max-w-3xl rounded-2xl bg-[#0d0d0d] p-5 md:p-6 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] mb-8 text-left">
@@ -53,7 +53,7 @@ export const CTA: React.FC = () => {
             href="/pricing/"
             className="px-6 py-3 rounded-sm text-sm font-semibold border border-black/15 text-gray-600 hover:text-gray-900 hover:border-black/40 transition-all"
           >
-            Start Enterprise
+            See team plan
           </a>
           <a
             href="/docs/"
@@ -63,7 +63,7 @@ export const CTA: React.FC = () => {
           </a>
         </div>
         <p className="mt-6 text-xs text-gray-500">
-          Dhee is a Sankhya AI Labs product · Open source core · Enterprise at $5 per seat
+          Dhee is a Sankhya AI Labs product · Open source core · Team plan at $5 per seat
         </p>
       </VenomBeam>
     </div>

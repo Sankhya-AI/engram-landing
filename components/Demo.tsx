@@ -21,7 +21,7 @@ export const Demo: React.FC = () => {
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
           Walkthrough: curl install → agent session → selective inject → digested tool output → handoff-ready context.
-          Free local core first, shared Enterprise memory when a team needs it.
+          Free local core first, shared team context when multiple developers need the same repo brain.
         </p>
       </div>
 
