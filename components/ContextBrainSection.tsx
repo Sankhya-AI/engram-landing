@@ -362,23 +362,23 @@ export function ContextBrainSection() {
       }
 
       if (sceneOneRef.current) {
-        sceneOneRef.current.style.opacity = `${clamp01((p - 0.255) / 0.035) * clamp01(1 - (p - 0.47) / 0.03)}`;
+        sceneOneRef.current.style.opacity = `${clamp01((p - 0.335) / 0.03) * clamp01(1 - (p - 0.49) / 0.025)}`;
       }
 
       if (sceneTwoRef.current) {
-        sceneTwoRef.current.style.opacity = `${clamp01((p - 0.5) / 0.03) * clamp01(1 - (p - 0.73) / 0.03)}`;
+        sceneTwoRef.current.style.opacity = `${clamp01((p - 0.52) / 0.03) * clamp01(1 - (p - 0.695) / 0.025)}`;
       }
 
       if (sceneThreeRef.current) {
-        sceneThreeRef.current.style.opacity = `${clamp01((p - 0.78) / 0.035)}`;
+        sceneThreeRef.current.style.opacity = `${clamp01((p - 0.745) / 0.035)}`;
       }
 
       if (legendRef.current) {
-        legendRef.current.style.opacity = `${clamp01((p - 0.32) / 0.04) * clamp01(1 - (p - 0.47) / 0.03)}`;
+        legendRef.current.style.opacity = `${clamp01((p - 0.365) / 0.035) * clamp01(1 - (p - 0.49) / 0.025)}`;
       }
 
       if (layerListRef.current) {
-        layerListRef.current.style.opacity = `${clamp01((p - 0.86) / 0.04)}`;
+        layerListRef.current.style.opacity = `${clamp01((p - 0.835) / 0.04)}`;
       }
     };
 
@@ -396,14 +396,14 @@ export function ContextBrainSection() {
       context.clearRect(0, 0, width, height);
 
       const wScatter = rampDown(p, 0.025, 0.045);
-      const wGlyph = ramp(p, 0.035, 0.055) * rampDown(p, 0.19, 0.225);
-      const wChannel = bell(p, 0.215, 0.245, 0.285);
+      const wGlyph = ramp(p, 0.035, 0.055) * rampDown(p, 0.285, 0.335);
+      const wChannel = bell(p, 0.31, 0.345, 0.39);
       const wDiagram = 0;
-      const wChaos = bell(p, 0.47, 0.5, 0.53);
-      const wBands = ramp(p, 0.51, 0.57) * rampDown(p, 0.7, 0.73);
-      const wReChaos = bell(p, 0.73, 0.76, 0.79);
-      const wLayers = ramp(p, 0.77, 0.89);
-      const sceneThree = clamp01((p - 0.72) / 0.08);
+      const wChaos = bell(p, 0.49, 0.515, 0.54);
+      const wBands = ramp(p, 0.53, 0.58) * rampDown(p, 0.675, 0.705);
+      const wReChaos = bell(p, 0.695, 0.72, 0.745);
+      const wLayers = ramp(p, 0.73, 0.84);
+      const sceneThree = clamp01((p - 0.69) / 0.08);
 
       for (let index = 0; index < dots.length; index += 1) {
         const dot = dots[index];
