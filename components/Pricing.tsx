@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
+import { CalDemoButton } from './CalDemoButton';
 
 type PricingPlan = {
   name: string;
@@ -7,13 +8,11 @@ type PricingPlan = {
   cadence: string;
   description: string;
   cta: string;
-  href: string;
   featured?: boolean;
   includes: string[];
   notes: string[];
 };
 
-const contactEmail = 'admin@sankhyaailabs.com';
 const seatPrice = 5;
 const minimumSeats = 5;
 
@@ -26,7 +25,6 @@ const plans: PricingPlan[] = [
     description:
       'The individual developer plan is the open-source Dhee plan: local-first, complete, and free.',
     cta: 'Start free',
-    href: 'https://github.com/Sankhya-AI/Dhee',
     includes: [
       'Local developer brain and context firewall',
       'CLI, UI, Python, and MCP primitives',
@@ -42,16 +40,15 @@ const plans: PricingPlan[] = [
     cadence: 'per seat / month',
     description:
       'For teams that want Dhee to carry repo context across developers, agents, sessions, and handoffs.',
-    cta: 'Join team list',
-    href: '#team-interest',
+    cta: 'Book a demo',
     featured: true,
     includes: [
       'Shared repo context across your team',
       'Git-backed decisions, conventions, and handoffs',
       'Shared tasks, broadcasts, and reviewed memories',
-      'Direct onboarding help from Sankhya AI Labs',
+      'Token-savings walkthrough for your agent workflow',
     ],
-    notes: ['Minimum 5 seats', 'Starts at $25/month', 'We reach out by email'],
+    notes: ['Minimum 5 seats', 'Starts at $25/month', 'Demo shows where tokens disappear'],
   },
 ];
 
@@ -67,40 +64,9 @@ const comparison = [
 ] as const;
 
 export const Pricing: React.FC = () => {
-  const [signup, setSignup] = useState({
-    email: '',
-    company: '',
-    seats: String(minimumSeats),
-    github: '',
-    surfaces: 'Codex, Claude Code, Cursor, MCP',
-  });
-
-  const seats = Math.max(minimumSeats, Number.parseInt(signup.seats, 10) || minimumSeats);
+  const [seatInput, setSeatInput] = useState(String(minimumSeats));
+  const seats = Math.max(minimumSeats, Number.parseInt(seatInput, 10) || minimumSeats);
   const monthlyEstimate = seats * seatPrice;
-
-  const signupHref = useMemo(() => {
-    const subject = 'Dhee Team plan interest';
-    const body = [
-      'Plan: Dhee Team',
-      `Price: $${seatPrice}/seat/month`,
-      `Minimum seats: ${minimumSeats}`,
-      `Expected seats: ${seats}`,
-      `Estimated monthly: $${monthlyEstimate}`,
-      `Work email: ${signup.email || '-'}`,
-      `Company: ${signup.company || '-'}`,
-      `GitHub org or repo: ${signup.github || '-'}`,
-      `Agent surfaces: ${signup.surfaces || '-'}`,
-      '',
-      'Please reach out about sharing repo context across our team using Dhee.',
-    ].join('\n');
-
-    return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }, [monthlyEstimate, seats, signup.company, signup.email, signup.github, signup.surfaces]);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    window.location.href = signupHref;
-  };
 
   return (
     <div className="ledger-pricing">
@@ -124,9 +90,9 @@ export const Pricing: React.FC = () => {
             <a href="#plans" className="ledger-btn ledger-btn-primary">
               Compare plans -&gt;
             </a>
-            <a href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer" className="ledger-btn">
-              View OSS
-            </a>
+            <CalDemoButton className="ledger-btn" aria-label="Book a Dhee demo">
+              Book a demo
+            </CalDemoButton>
           </div>
         </div>
 
@@ -188,14 +154,20 @@ export const Pricing: React.FC = () => {
               </ul>
             </div>
 
-            <a
-              href={plan.href}
-              target={plan.href.startsWith('http') ? '_blank' : undefined}
-              rel={plan.href.startsWith('http') ? 'noreferrer' : undefined}
-              className={plan.featured ? 'ledger-plan-cta primary' : 'ledger-plan-cta'}
-            >
-              {plan.cta} -&gt;
-            </a>
+            {plan.featured ? (
+              <CalDemoButton className="ledger-plan-cta primary" aria-label="Book a Dhee Team demo">
+                {plan.cta} -&gt;
+              </CalDemoButton>
+            ) : (
+              <a
+                href="https://github.com/Sankhya-AI/Dhee"
+                target="_blank"
+                rel="noreferrer"
+                className="ledger-plan-cta"
+              >
+                {plan.cta} -&gt;
+              </a>
+            )}
           </article>
         ))}
       </section>
@@ -255,11 +227,11 @@ export const Pricing: React.FC = () => {
       <section id="team-interest" className="signup-page">
         <div className="signup-hero">
           <div>
-            <p className="ledger-meta">/ team interest</p>
-            <h1>Share repo context across your team.</h1>
+            <p className="ledger-meta">/ book a demo</p>
+            <h1>See how Dhee saves tokens for you and your team.</h1>
             <p>
-              Tell us where Dhee will run and how many seats you expect. We will reach out from
-              admin@sankhyaailabs.com to help your team get set up.
+              Book a walkthrough and we will map your current agent workflow: repeated context, noisy tool output,
+              stale repo knowledge, and where Dhee can cut token waste without hiding the evidence.
             </p>
           </div>
           <aside className="signup-hero-aside" aria-label="Team plan summary">
@@ -271,84 +243,57 @@ export const Pricing: React.FC = () => {
         </div>
 
         <div className="signup-grid">
-          <form onSubmit={handleSubmit} className="signup-form">
+          <div className="signup-form">
             <div>
-              <span className="signup-label">join the team list</span>
+              <span className="signup-label">demo planner</span>
             </div>
             <div className="signup-fields">
               <label>
-                <span>Work email</span>
-                <input
-                  required
-                  type="email"
-                  value={signup.email}
-                  onChange={(event) => setSignup((current) => ({ ...current, email: event.target.value }))}
-                  placeholder="you@company.com"
-                  autoComplete="email"
-                />
-              </label>
-              <label>
-                <span>Company</span>
-                <input
-                  type="text"
-                  value={signup.company}
-                  onChange={(event) => setSignup((current) => ({ ...current, company: event.target.value }))}
-                  placeholder="Acme"
-                  autoComplete="organization"
-                />
-              </label>
-              <label>
-                <span>Seats</span>
+                <span>Expected seats</span>
                 <input
                   type="number"
                   min={minimumSeats}
-                  value={signup.seats}
-                  onChange={(event) => setSignup((current) => ({ ...current, seats: event.target.value }))}
+                  value={seatInput}
+                  onChange={(event) => setSeatInput(event.target.value)}
                   onBlur={(event) => {
                     const value = Number.parseInt(event.target.value, 10);
                     if (!Number.isFinite(value) || value < minimumSeats) {
-                      setSignup((current) => ({ ...current, seats: String(minimumSeats) }));
+                      setSeatInput(String(minimumSeats));
                     }
                   }}
                 />
               </label>
               <label>
-                <span>GitHub org / repo</span>
-                <input
-                  type="text"
-                  value={signup.github}
-                  onChange={(event) => setSignup((current) => ({ ...current, github: event.target.value }))}
-                  placeholder="github.com/org/repo"
-                />
+                <span>Minimum</span>
+                <input type="text" value={`${minimumSeats} seats`} readOnly />
               </label>
               <label className="signup-wide">
-                <span>Agent surfaces</span>
-                <input
-                  type="text"
-                  value={signup.surfaces}
-                  onChange={(event) => setSignup((current) => ({ ...current, surfaces: event.target.value }))}
+                <span>What we will show</span>
+                <textarea
+                  value="token savings, repo context, handoff quality, and Dhee UI"
+                  readOnly
                 />
               </label>
             </div>
-            <button type="submit" className="ledger-plan-cta primary signup-submit">
-              Open interest email -&gt;
-            </button>
-          </form>
+            <CalDemoButton className="ledger-plan-cta primary signup-submit" aria-label="Book a Dhee token-savings demo">
+              Book a demo -&gt;
+            </CalDemoButton>
+          </div>
 
           <aside className="signup-summary">
-            <div className="signup-summary-top">/ team quote</div>
+            <div className="signup-summary-top">/ demo focus</div>
             <h2>${monthlyEstimate.toLocaleString()}</h2>
             <p>{seats} seats x ${seatPrice} per seat per month. Minimum {minimumSeats} seats.</p>
             <div className="signup-console">
-              <div>what we help set up</div>
-              <p>dhee ui and workspace flow</p>
-              <p>repo context bootstrap</p>
-              <p>agent routing setup</p>
-              <p>shared memory review flow</p>
+              <div>we walk through</div>
+              <p>how much context your agents repeat</p>
+              <p>where tool output burns tokens</p>
+              <p>how shared repo context removes cold starts</p>
+              <p>what your team sees inside the Dhee UI</p>
             </div>
-            <a className="signup-github" href={`mailto:${contactEmail}?subject=Dhee%20Team%20plan%20interest`}>
-              {contactEmail}
-            </a>
+            <CalDemoButton className="signup-github" aria-label="Book a Dhee demo from summary">
+              Book demo on Cal.com
+            </CalDemoButton>
           </aside>
         </div>
       </section>

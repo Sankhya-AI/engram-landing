@@ -1,6 +1,7 @@
 import React from 'react';
 import VenomBeam from './scrollx/VenomBeam';
 import { AnimatedButton } from './scrollx/AnimatedButton';
+import { CalDemoButton } from './CalDemoButton';
 
 export const CTA: React.FC = () => {
   return (
@@ -49,12 +50,9 @@ export const CTA: React.FC = () => {
               View on GitHub
             </a>
           </AnimatedButton>
-          <a
-            href="/pricing/"
-            className="px-6 py-3 rounded-sm text-sm font-semibold border border-black/15 text-gray-600 hover:text-gray-900 hover:border-black/40 transition-all"
-          >
-            See team plan
-          </a>
+          <CalDemoButton className="px-6 py-3 rounded-sm text-sm font-semibold border border-black/15 text-gray-600 hover:text-gray-900 hover:border-black/40 transition-all bg-transparent">
+            Book a demo
+          </CalDemoButton>
           <a
             href="/docs/"
             className="px-6 py-3 rounded-sm text-sm font-semibold text-gray-500 hover:text-gray-900 transition-all"

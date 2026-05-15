@@ -630,6 +630,7 @@ body:has(.dhee-site-shell) {
   text-transform: none;
   box-shadow: 0 1px 0 rgba(20, 16, 12, 0.08), 0 16px 38px rgba(42, 18, 8, 0.08);
   backdrop-filter: blur(8px);
+  cursor: pointer;
   transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
@@ -1705,7 +1706,8 @@ body:has(.dhee-site-shell) {
   color: var(--dhee-ink);
 }
 
-.signup-fields input {
+.signup-fields input,
+.signup-fields textarea {
   width: 100%;
   min-height: 3.2rem;
   border: 1px solid var(--dhee-rule);
@@ -1718,7 +1720,13 @@ body:has(.dhee-site-shell) {
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
-.signup-fields input:focus {
+.signup-fields textarea {
+  min-height: 4.5rem;
+  resize: none;
+}
+
+.signup-fields input:focus,
+.signup-fields textarea:focus {
   border-color: rgba(232, 93, 42, 0.72);
   box-shadow: 0 0 0 4px rgba(232, 93, 42, 0.12);
 }
@@ -1792,13 +1800,16 @@ body:has(.dhee-site-shell) {
 
 .signup-github {
   width: fit-content;
+  border: 0;
   border-bottom: 1px solid currentColor;
+  background: transparent;
   padding-bottom: 0.18rem;
   font-family: var(--font-space-mono);
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-decoration: none;
-  text-transform: lowercase;
+  text-transform: none;
+  cursor: pointer;
   transition: color 180ms ease;
 }
 
