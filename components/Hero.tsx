@@ -3,54 +3,54 @@ import { BackgroundMeteors } from './scrollx/BackgroundMeteors';
 import { AnimatedButton } from './scrollx/AnimatedButton';
 
 const heroStats = [
-  { label: 'Open-source core', value: 'Free', note: 'local developer memory and context routing' },
-  { label: 'Team plan', value: '$5', note: 'per seat for shared repo context' },
+  { label: 'Agent runtime', value: '3', note: 'before, tool, checkpoint loop' },
+  { label: 'Native providers', value: '3', note: 'ElevenLabs, Gemini, and OpenAI' },
   { label: 'LongMemEval R@5', value: '99.4%', note: 'benchmark proof for durable recall' },
 ];
 
 const terminalScreens = [
   {
     label: 'onboard',
-    title: 'Developer Brain',
+    title: 'World Memory',
     lines: [
       '$ curl -fsSL github.com/Sankhya-AI/Dhee/install.sh | sh',
-      'ok hooks installed for Claude Code + Codex',
-      'ok MCP router registered for Cursor and desktop clients',
-      'ok repo docs ingested: AGENTS.md, CLAUDE.md, README.md',
-      'next: dhee link /repo to create shared context',
+      'ok memory runtime installed',
+      'ok MCP, Python SDK, HTTP sidecar available',
+      'ok SceneCards and MemoryItems ready',
+      'next: attach Dhee to the agent you already have',
     ],
   },
   {
     label: 'route',
     title: 'Context Router',
     lines: [
-      '$ dhee context compile --agent codex --task "pricing page"',
-      'read repo state: 18 entries, 247 local memories',
-      'match Product/Pricing/Team docs at confidence 0.91',
-      'inject 312 tokens, suppress 5,388 irrelevant tokens',
-      'result: agent starts warm with the right product brain',
+      '$ dhee context compile --task "voice support call"',
+      'read durable user, project, repo, and scene memory',
+      'admit preferences, corrections, open tasks',
+      'suppress transcript noise and stale assumptions',
+      'result: agent starts with the bigger story',
     ],
   },
   {
     label: 'share',
-    title: 'Team Memory',
+    title: 'Provider Memory',
     lines: [
-      '$ dhee handoff --repo . --share',
-      'capture decisions, commands, build output, open risks',
-      'broadcast to active agents: UI, backend, docs',
-      'promote reviewed memories into .dhee/context/entries.jsonl',
-      'result: fresh clones are no longer cold starts',
+      '$ python -c "from dhee import ElevenLabsAgent"',
+      'before call: inject {{dhee_context}}',
+      'during call: expose dhee_memory',
+      'after call: checkpoint useful outcomes',
+      'result: the next call is not a cold start',
     ],
   },
   {
-    label: 'team',
-    title: 'Dhee Team',
+    label: 'sidecar',
+    title: 'HTTP Sidecar',
     lines: [
-      '$ dhee team onboard --seats 24',
-      'plan: $5 / seat / month',
-      'enable shared repo context and reviewed handoffs',
-      'connect GitHub org, docs, agent routing surfaces',
-      'ready: every coding agent starts with team context',
+      '$ dhee serve --host 0.0.0.0 --port 8765',
+      'POST /v1/runs/start returns compact context',
+      'POST /v1/tools/dhee_memory recalls or saves memory',
+      'POST /v1/runs/{run_id}/finish checkpoints',
+      'ready: any stack can use Dhee over HTTP',
     ],
   },
 ];
@@ -77,53 +77,50 @@ export const Hero: React.FC = () => {
           <div className="inline-flex max-w-full min-w-0 flex-wrap sm:flex-nowrap items-center gap-3 px-4 py-2 rounded-2xl sm:rounded-full border border-black/10 bg-white/92 mb-8 shadow-[0_12px_30px_rgba(0,0,0,0.04)]">
             <img src="/sensai-logo.png" alt="Dhee logo" className="w-8 h-8 object-contain" />
             <span className="min-w-0 break-words text-[10px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.24em] leading-relaxed text-gray-500">
-              Dhee product brain
+              Dhee world memory
             </span>
           </div>
 
           <p className="w-full max-w-full text-[10px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.35em] leading-relaxed text-gray-400 mb-6">
-            Product brain for AI-native engineering teams
+            World memory for AI agents
           </p>
 
           <h1 className="w-full max-w-4xl text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.02] text-gray-900 mb-6">
-            One shared brain
+            Give any agent
             <br />
             <span
               className="block max-w-full"
               style={{
-                background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
+                background: 'linear-gradient(135deg, #14100c 0%, #4f4a43 30%, #6b665f 60%, #9a958d 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }}
             >
-              for every coding
-              <br className="sm:hidden" /> agent.
+              the bigger story.
             </span>
           </h1>
 
           <p className="w-full max-w-3xl text-sm md:text-lg text-gray-600 leading-relaxed mb-5">
-            Dhee captures what Codex, Claude Code, Cursor, repos, tools, and teammates learn, then routes the right
-            context into the next agent before anyone starts cold. Start with the open-source developer brain; upgrade
-            to the Team plan when repo context becomes shared infrastructure.
+            Dhee stores the useful arc of a user, project, repo, and session, then routes the right context
+            into ElevenLabs, Gemini, OpenAI, Codex, and MCP-native agents before the next action.
           </p>
 
           <p className="w-full max-w-2xl text-xs md:text-sm text-gray-500 leading-relaxed mb-8">
-            Developer memory, shared repo context, secure routing, docs, GitHub, and $5 per seat
-            team pricing.
+            SceneCards, MemoryItems, privacy gates, contradiction handling, proof gates, and checkpoints.
           </p>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <AnimatedButton className="bg-black text-white hover:bg-gray-900" glow asChild>
-              <a href="#get-started">
-                Start free
+              <a href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
+                Install Dhee
               </a>
             </AnimatedButton>
             <a
-              href="/pricing/"
+              href="#integrations"
               className="px-6 py-3 rounded-sm text-sm font-semibold border border-black/15 text-gray-600 hover:text-gray-900 hover:border-black/40 transition-all"
             >
-              See pricing
+              See integrations
             </a>
             <a
               href="/docs/"
@@ -163,7 +160,7 @@ export const Hero: React.FC = () => {
               <div className="px-5 py-5">
                 <div className="flex items-center justify-between gap-4 mb-5">
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.22em] text-[#e8722a] font-mono mb-1">
+                    <div className="text-[11px] uppercase tracking-[0.22em] text-[#6b665f] font-mono mb-1">
                       live terminal
                     </div>
                     <h2 className="text-white text-xl font-semibold tracking-tight">{activeScreen.title}</h2>
@@ -176,7 +173,7 @@ export const Hero: React.FC = () => {
                         aria-label={`Show ${screen.title}`}
                         onClick={() => setScreenIndex(index)}
                         className={`h-1.5 rounded-full transition-all ${
-                          index === screenIndex ? 'w-8 bg-[#e8722a]' : 'w-3 bg-white/18 hover:bg-white/30'
+                          index === screenIndex ? 'w-8 bg-[#6b665f]' : 'w-3 bg-white/18 hover:bg-white/30'
                         }`}
                       />
                     ))}
@@ -198,8 +195,8 @@ export const Hero: React.FC = () => {
                   <div className="text-[10px] uppercase tracking-[0.16em] text-gray-500">agents</div>
                 </div>
                 <div className="px-3 py-4">
-                  <div className="text-white font-semibold">$5</div>
-                  <div className="text-[10px] uppercase tracking-[0.16em] text-gray-500">seat</div>
+                  <div className="text-white font-semibold">HTTP</div>
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-gray-500">sidecar</div>
                 </div>
               </div>
             </div>

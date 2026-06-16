@@ -2,7 +2,7 @@ import React from 'react';
 
 const navItems = [
   { label: 'Dhee', href: '/' },
-  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Integrations', href: '/#integrations' },
   { label: 'Docs', href: '/docs/' },
   { label: 'GitHub', href: 'https://github.com/Sankhya-AI/Dhee' },
 ];
@@ -50,10 +50,12 @@ export const Navbar: React.FC = () => {
           <span className="text-[11px] font-medium tracking-[0.2em] uppercase">GitHub</span>
         </a>
         <a
-          href="/pricing/"
+          href="https://github.com/Sankhya-AI/Dhee"
+          target="_blank"
+          rel="noreferrer"
           className="hidden sm:inline-flex text-white bg-black hover:bg-gray-900 px-4 py-2 border border-black rounded-sm items-center gap-2"
         >
-          <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">Team $5 / seat</span>
+          <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">Install Dhee</span>
         </a>
       </div>
     </nav>

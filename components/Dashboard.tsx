@@ -109,21 +109,21 @@ export const Dashboard: React.FC = () => {
       <div className="text-center mb-12">
         <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400 mb-4">Onboarding</p>
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-4">
-          From install to shared repo brain —{' '}
+          From install to world memory —{' '}
           <span
             style={{
-              background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
+              background: 'linear-gradient(135deg, #14100c 0%, #4f4a43 30%, #6b665f 60%, #9a958d 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
             }}
           >
-            the path to Team.
+            the path to better agents.
           </span>
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
-          Start with the local developer brain. As your team adopts Dhee, reviewed memories can become shared repo
-          context, and the Team plan adds shared workflows, onboarding help, and reviewed handoffs.
+          Dhee captures useful scenes, compiles compact context, and checkpoints what should matter next time
+          across repo work, voice calls, chat agents, and handoffs.
         </p>
       </div>
 
@@ -160,7 +160,7 @@ export const Dashboard: React.FC = () => {
           <div className="space-y-3">
             {current.bullets.map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#e8722a]" />
+                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#6b665f]" />
                 <p className="text-sm text-gray-600 leading-relaxed">{item}</p>
               </div>
             ))}

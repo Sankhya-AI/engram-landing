@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { ContextBrainSection } from './components/ContextBrainSection';
-import { Pricing } from './components/Pricing';
 
 function DheeHeader() {
   const [inverted, setInverted] = useState(false);
@@ -12,7 +11,7 @@ function DheeHeader() {
       const inverseSections = Array.from(document.querySelectorAll('[data-dhee-navbar-inverse]'));
       const shouldInvert = inverseSections.some((section) => {
         const rect = section.getBoundingClientRect();
-        return rect.top < 76 && rect.bottom > 0;
+        return rect.top < 82 && rect.bottom > 82;
       });
 
       setInverted(shouldInvert);
@@ -46,13 +45,13 @@ function DheeHeader() {
         </a>
         <nav className="dhee-nav" aria-label="Dhee navigation">
           <a href="/">Dhee</a>
-          <a href="/pricing/">Pricing</a>
+          <a href="/#integrations">Integrations</a>
           <a href="/docs/">Docs</a>
           <a href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
             GitHub
           </a>
           <a className="dhee-nav-cta" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
-            Start free <span aria-hidden="true">-&gt;</span>
+            Install <span aria-hidden="true">-&gt;</span>
           </a>
         </nav>
       </div>
@@ -68,26 +67,17 @@ function DheeFooter() {
         Sankhya AI Labs
       </a>
       <a href="/docs/">docs</a>
-      <a href="/pricing/">pricing</a>
+      <a href="/#integrations">integrations</a>
     </footer>
   );
 }
 
 export default function App() {
-  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
-  const isPricingPage = path.replace(/\/$/, '') === '/pricing';
-
   return (
     <div className="dhee-site-shell">
       <DheeHeader />
       <main>
-        {isPricingPage ? (
-          <section className="dhee-page-frame" aria-label="Dhee pricing">
-            <Pricing />
-          </section>
-        ) : (
-          <ContextBrainSection />
-        )}
+        <ContextBrainSection />
       </main>
       <DheeFooter />
       <Analytics />

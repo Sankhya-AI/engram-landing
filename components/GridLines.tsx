@@ -21,7 +21,7 @@ export const GridLines: React.FC = () => {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(circle at 30% 10%, rgba(255,255,255,0.6), transparent 65%), radial-gradient(circle at 70% 85%, rgba(232,114,42,0.04), transparent 50%), radial-gradient(circle at 20% 60%, rgba(212,96,122,0.03), transparent 45%)',
+            'radial-gradient(circle at 30% 10%, rgba(255,255,255,0.6), transparent 65%), radial-gradient(circle at 70% 85%, rgba(107,102,95,0.04), transparent 50%), radial-gradient(circle at 20% 60%, rgba(79,74,67,0.03), transparent 45%)',
         }}
       />
     </div>

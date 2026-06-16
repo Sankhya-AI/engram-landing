@@ -1,732 +1,386 @@
-import { useEffect, useRef, useState } from 'react';
 import { PixelDither } from './PixelDither';
 
-type Point = {
-  x: number;
-  y: number;
-};
-
-type Dot = Point & {
-  ox: number;
-  oy: number;
-  delay: number;
-  accent: boolean;
-  group: 0 | 1;
-  sx: number;
-  sy: number;
-  size: number;
-};
-
-const layers = [
+const workflowSteps = [
   {
     num: '01',
-    name: 'observe',
-    title: 'capture',
-    body: 'Reads, edits, commands, tests, and agent handoffs are captured as local evidence.',
+    verb: 'Start with context',
+    label: 'before',
+    body: 'Dhee compiles the useful facts, decisions, open tasks, repo state, and handoffs before the model takes the next step.',
+    proof: ['compact context', 'repo aware', 'handoff ready'],
   },
   {
     num: '02',
-    name: 'compile',
-    title: 'state',
-    body: 'Noisy work becomes a compact state card with decisions, receipts, and open risks.',
+    verb: 'Recall or save',
+    label: 'during',
+    body: 'The agent calls dhee_memory when it needs a preference, correction, prior decision, source note, or new fact worth keeping.',
+    proof: ['tool call', 'selective recall', 'new memory'],
   },
   {
     num: '03',
-    name: 'admit',
-    title: 'route',
-    body: 'The next model call receives only the context it needs; the rest stays behind pointers.',
+    verb: 'Filter noise',
+    label: 'admit',
+    body: 'Raw transcripts, huge tool output, stale claims, OTPs, secrets, and filler stay out unless there is a reason to inspect the source.',
+    proof: ['secret gates', 'source pointers', 'no prompt dump'],
   },
   {
     num: '04',
-    name: 'govern',
-    title: 'remember',
-    body: 'Useful context is promoted, stale context is suppressed, and every claim stays auditable.',
+    verb: 'Checkpoint proof',
+    label: 'after',
+    body: 'At the end of work, Dhee stores the result, rejected paths, accepted decisions, and proof so the next run starts warmer.',
+    proof: ['outcomes', 'lessons', 'next context'],
   },
 ];
 
-const terminalSteps = [
+const useCases = [
   {
-    title: '~/dhee - onboarding',
-    label: '01 / initialize',
-    command: 'dhee init --repo .',
-    lines: [
-      ['ok', 'workspace detected: coding repo'],
-      ['ok', 'local evidence store created'],
-      ['ok', 'AGENTS.md and repo rules indexed'],
-      ['next', 'compile context before the next agent turn'],
-    ],
+    title: 'Coding agents',
+    body: 'Claude Code, Codex, Cursor, and MCP clients keep repo rules, prior fixes, open tasks, branch handoffs, and tool-output digests across sessions.',
+    tags: ['repo memory', 'agent handoff', 'digested tools'],
   },
   {
-    title: '~/dhee - capture',
-    label: '02 / capture work',
-    command: 'dhee capture --agent codex',
-    lines: [
-      ['read', 'files, shell output, tests, edits, and handoff notes'],
-      ['digest', 'large tool results stored behind pointers'],
-      ['receipt', 'evidence linked to the state card'],
-      ['privacy', 'raw activity stays local until promoted'],
-    ],
+    title: 'Voice agents',
+    body: 'ElevenLabs agents start calls with the right customer facts, use a memory tool during the call, and checkpoint useful outcomes afterward.',
+    tags: ['before call', 'server tool', 'post-call memory'],
   },
   {
-    title: '~/dhee - compile',
-    label: '03 / compile state',
-    command: 'dhee context compile --task "ship fix"',
-    lines: [
-      ['goal', 'current task and constraints refreshed'],
-      ['plan', 'active todos and blockers rendered compactly'],
-      ['evidence', 'recent files and tests linked by receipt'],
-      ['result', 'agent starts from state, not transcript fog'],
-    ],
+    title: 'Support agents',
+    body: 'Agents can continue refund cases, remember follow-up channels, suppress private details, and cite the source of a fact when needed.',
+    tags: ['case continuity', 'safe recall', 'source-linked'],
   },
   {
-    title: '~/dhee - route',
-    label: '04 / route context',
-    command: 'dhee inject --agent claude-code',
-    lines: [
-      ['admit', 'project rules, current files, and live state card'],
-      ['suppress', 'old transcript, duplicate tool output, stale plans'],
-      ['expand', 'raw evidence only if the model asks for a pointer'],
-      ['ready', 'Claude Code sees the useful part of the work'],
-    ],
+    title: 'Browser and desktop agents',
+    body: 'Long-running assistants keep preferences, app state, accepted decisions, and rejected paths without replaying every old chat.',
+    tags: ['local context', 'preferences', 'next action'],
   },
   {
-    title: '~/dhee - govern',
-    label: '05 / remember or forget',
-    command: 'dhee ledger inspect',
-    lines: [
-      ['assert', 'facts linked back to admitted evidence'],
-      ['warn', 'stale assumptions flagged before reuse'],
-      ['promote', 'stable decisions become repo memory'],
-      ['forget', 'irrelevant context stays out of the prompt'],
-    ],
+    title: 'Multi-agent teams',
+    body: 'One agent can pause and another can resume from a compact handoff instead of reconstructing the whole task from logs.',
+    tags: ['shared context', 'task router', 'handoff'],
   },
 ];
 
-const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
-const lerp = (from: number, to: number, amount: number) => from + (to - from) * amount;
-const smooth = (value: number) => value * value * (3 - 2 * value);
+const integrationPaths = [
+  {
+    title: 'MCP clients',
+    note: 'Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, Goose, and Claude Desktop get the same memory surface.',
+    code: `dhee mcp install
 
-function ramp(progress: number, start: number, end: number) {
-  if (progress <= start) return 0;
-  if (progress >= end) return 1;
-  return smooth((progress - start) / (end - start));
-}
+# then call
+dhee_context_bootstrap
+dhee_read
+dhee_expand_result
+dhee_checkpoint`,
+  },
+  {
+    title: 'Python SDK',
+    note: 'Embed Dhee directly in your agent runtime when you want a small explicit API.',
+    code: `from dhee import Dhee
 
-function rampDown(progress: number, start: number, end: number) {
-  return 1 - ramp(progress, start, end);
-}
+d = Dhee()
+ctx = d.context("fix the auth flow")
+d.remember("Use Playwright for browser checks")
+d.checkpoint("Auth flow fixed and verified")`,
+  },
+  {
+    title: 'OpenAI and Gemini',
+    note: 'Provider helpers add Dhee context, a memory tool, and checkpointing without changing your whole stack.',
+    code: `memory = OpenAIAgent(model=OPENAI_MODEL)
+response = memory.create_response(
+    "what did we decide?",
+    tools=existing_tools,
+)
+memory.checkpoint(response)`,
+  },
+  {
+    title: 'ElevenLabs voice',
+    note: 'Dynamic variables before the call, a client/server memory tool during it, and useful recall next time.',
+    code: `memory = ElevenLabsAgent(
+    agent_id=agent_id,
+    user_id=user.id,
+)
+init = memory.start_call(task="support call")`,
+  },
+  {
+    title: 'HTTP sidecar',
+    note: 'Any stack can call Dhee over HTTP for context, memory tools, and finish checkpoints.',
+    code: `POST /v1/runs/start
+POST /v1/tools/dhee_memory
+POST /v1/runs/{run_id}/finish`,
+  },
+];
 
-function bell(progress: number, start: number, peak: number, end: number) {
-  if (progress <= start || progress >= end) return 0;
-  if (progress < peak) return smooth((progress - start) / (peak - start));
-  return smooth(1 - (progress - peak) / (end - peak));
-}
+const proofPoints = [
+  {
+    title: 'Not just vector search',
+    body: 'Dhee stores memories, scenes, handoffs, outcomes, and source pointers, then admits only the parts that fit the current task.',
+  },
+  {
+    title: 'Source-linked digests',
+    body: 'Large files, shell output, logs, and subagent replies become compact digests with pointers the model can expand only when needed.',
+  },
+  {
+    title: 'Local-first governance',
+    body: 'SQLite by default, deterministic gates first, and careful handling for secrets, private scenes, contradictions, and stale facts.',
+  },
+  {
+    title: 'Self-tuning retrieval',
+    body: 'Dhee watches which pointers agents expand and tunes digest depth by tool and intent, so context improves as teams use it.',
+  },
+];
 
-function makeChaosTargets(count: number, width: number, height: number): Point[] {
-  return Array.from({ length: count }, () => ({
-    x: Math.random() * width,
-    y: Math.random() * height,
-  }));
-}
-
-function makeChannelTargets(count: number, width: number, height: number): Point[] {
-  const center = width * 0.62;
-  const columnWidth = Math.min(88, width * 0.11);
-
-  return Array.from({ length: count }, (_, index) => {
-    const progress = index / count;
-    return {
-      x: center + (Math.random() - 0.5) * columnWidth,
-      y: 42 + progress * (height - 84) + (Math.random() - 0.5) * 8,
-    };
-  });
-}
-
-function makeBandTargets(count: number, width: number, height: number): Point[] {
-  const bands = 15;
-  const margin = Math.max(58, height * 0.12);
-  const usableHeight = Math.max(1, height - margin * 2);
-  const spacing = usableHeight / bands;
-  const bandHeight = spacing * 0.42;
-
-  return Array.from({ length: count }, () => {
-    const band = Math.floor(Math.random() * bands);
-    const centerY = margin + band * spacing + spacing / 2;
-    return {
-      x: Math.random() * width,
-      y: centerY + (Math.random() - 0.5) * bandHeight,
-    };
-  });
-}
-
-function makeLayerTargets(count: number, width: number, height: number) {
-  const layerCount = 4;
-  const top = height * 0.24;
-  const bottom = height * 0.79;
-  const layerSpacing = (bottom - top) / (layerCount - 1);
-  const promoted: Point[] = [];
-  const raw: Point[] = [];
-
-  for (let index = 0; index < count; index += 1) {
-    const layer = index % layerCount;
-    const centerY = top + layer * layerSpacing;
-
-    promoted.push({
-      x: Math.random() * width * 0.9 + width * 0.05,
-      y: centerY + (Math.random() - 0.5) * 28,
-    });
-
-    raw.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-    });
-  }
-
-  return { promoted, raw };
-}
-
-function bitmapTargets(
-  draw: (context: CanvasRenderingContext2D, width: number, height: number) => void,
-  count: number,
-  width: number,
-  height: number,
-): Point[] {
-  if (width < 2 || height < 2) {
-    return Array.from({ length: count }, () => ({ x: width / 2, y: height / 2 }));
-  }
-
-  const offscreen = document.createElement('canvas');
-  offscreen.width = width;
-  offscreen.height = height;
-
-  const context = offscreen.getContext('2d');
-  if (!context) {
-    return makeChaosTargets(count, width, height);
-  }
-
-  context.fillStyle = '#ffffff';
-  context.fillRect(0, 0, width, height);
-  context.fillStyle = '#000000';
-  context.imageSmoothingEnabled = false;
-  draw(context, width, height);
-
-  const data = context.getImageData(0, 0, width, height).data;
-  const points: Point[] = [];
-  const stride = 2;
-
-  for (let y = 0; y < height; y += stride) {
-    for (let x = 0; x < width; x += stride) {
-      const index = (y * width + x) * 4;
-      if (data[index] < 130) {
-        points.push({ x, y });
-      }
-    }
-  }
-
-  if (points.length === 0) {
-    return Array.from({ length: count }, () => ({ x: width / 2, y: height / 2 }));
-  }
-
-  return Array.from({ length: count }, (_, index) => {
-    const pointIndex = Math.floor((index * 2654435761) % points.length);
-    return points[pointIndex];
-  });
-}
-
-function drawHeroPhrase(context: CanvasRenderingContext2D, width: number, height: number) {
-  const phrase = 'context, governed.';
-  const maxTextWidth = Math.min(width * 0.72, 1320);
-  let fontSize = Math.max(32, Math.min(width * 0.075, height * 0.17, 124));
-
-  context.font = `400 ${fontSize}px "DotGothic16", "DotGothic16 Fallback", monospace`;
-  while (context.measureText(phrase).width > maxTextWidth && fontSize > 24) {
-    fontSize -= 2;
-    context.font = `400 ${fontSize}px "DotGothic16", "DotGothic16 Fallback", monospace`;
-  }
-
-  context.fillStyle = '#000000';
-  context.textBaseline = 'middle';
-  context.textAlign = 'center';
-  context.fillText(phrase, width / 2, height / 2);
-}
+const stats = [
+  ['4', 'core operations'],
+  ['28', 'MCP tools'],
+  ['0', 'hot-path LLM calls'],
+];
 
 export function ContextBrainSection() {
-  const [terminalStepIndex, setTerminalStepIndex] = useState(0);
-  const stageRef = useRef<HTMLElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const idleRef = useRef<HTMLDivElement | null>(null);
-  const sceneOneRef = useRef<HTMLDivElement | null>(null);
-  const sceneTwoRef = useRef<HTMLDivElement | null>(null);
-  const sceneThreeRef = useRef<HTMLDivElement | null>(null);
-  const legendRef = useRef<HTMLDivElement | null>(null);
-  const layerListRef = useRef<HTMLOListElement | null>(null);
-  const terminalStep = terminalSteps[terminalStepIndex];
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const stage = stageRef.current;
-
-    if (!canvas || !stage) {
-      return undefined;
-    }
-
-    const context = canvas.getContext('2d');
-    if (!context) {
-      return undefined;
-    }
-
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let progress = 0;
-    let animationFrame = 0;
-    let resizeTimer = 0;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const count = reducedMotion
-      ? 700
-      : Math.min(2400, Math.max(1500, Math.floor((window.innerWidth * window.innerHeight) / 390)));
-    const dots: Dot[] = [];
-
-    let scatterTargets: Point[] = [];
-    let glyphTargets: Point[] = [];
-    let channelTargets: Point[] = [];
-    let bandTargets: Point[] = [];
-    let chaosTargets: Point[] = [];
-    let layerTargets: Point[] = [];
-    let layerTargetsForRaw: Point[] = [];
-
-    const computeTargets = () => {
-      if (dots.length === 0) {
-        return;
-      }
-
-      dots.forEach((dot) => {
-        dot.ox = Math.random() * width;
-        dot.oy = Math.random() * height;
-      });
-
-      scatterTargets = dots.map((dot) => ({ x: dot.ox, y: dot.oy }));
-      glyphTargets = bitmapTargets(drawHeroPhrase, count, width, height);
-      channelTargets = makeChannelTargets(count, width, height);
-      bandTargets = makeBandTargets(count, width, height);
-      chaosTargets = makeChaosTargets(count, width, height);
-
-      const layered = makeLayerTargets(count, width, height);
-      layerTargets = layered.promoted;
-      layerTargetsForRaw = layered.raw;
-    };
-
-    const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.getBoundingClientRect();
-      width = Math.floor(rect.width);
-      height = Math.floor(rect.height);
-      canvas.width = Math.max(1, width * dpr);
-      canvas.height = Math.max(1, height * dpr);
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
-      computeTargets();
-    };
-
-    const initDots = () => {
-      dots.length = 0;
-
-      for (let index = 0; index < count; index += 1) {
-        const x = Math.random() * (width || window.innerWidth);
-        const y = Math.random() * (height || window.innerHeight);
-
-        dots.push({
-          x,
-          y,
-          ox: x,
-          oy: y,
-          delay: Math.pow(Math.random(), 1.4) * 0.6,
-          accent: Math.random() < 0.02,
-          group: Math.random() < 0.15 ? 0 : 1,
-          sx: Math.random() * 1000,
-          sy: Math.random() * 1000,
-          size: Math.random() < 0.72 ? 1.45 : 1.95,
-        });
-      }
-    };
-
-    const updateProgress = () => {
-      const total = Math.max(1, stage.offsetHeight - window.innerHeight);
-      progress = clamp01(-stage.getBoundingClientRect().top / total);
-    };
-
-    const updateHud = () => {
-      const p = progress;
-
-      if (idleRef.current) {
-        idleRef.current.style.opacity = `${clamp01(1 - p / 0.032)}`;
-      }
-
-      if (sceneOneRef.current) {
-        sceneOneRef.current.style.opacity = `${clamp01((p - 0.335) / 0.03) * clamp01(1 - (p - 0.49) / 0.025)}`;
-      }
-
-      if (sceneTwoRef.current) {
-        sceneTwoRef.current.style.opacity = `${clamp01((p - 0.52) / 0.03) * clamp01(1 - (p - 0.695) / 0.025)}`;
-      }
-
-      if (sceneThreeRef.current) {
-        sceneThreeRef.current.style.opacity = `${clamp01((p - 0.745) / 0.035)}`;
-      }
-
-      if (legendRef.current) {
-        legendRef.current.style.opacity = `${clamp01((p - 0.365) / 0.035) * clamp01(1 - (p - 0.49) / 0.025)}`;
-      }
-
-      if (layerListRef.current) {
-        layerListRef.current.style.opacity = `${clamp01((p - 0.835) / 0.04)}`;
-      }
-    };
-
-    const brownian = (dot: Dot, time: number): Point => {
-      const scale = reducedMotion ? 4 : 14;
-      const nx = Math.sin(time * 0.35 + dot.sx) * 0.6 + Math.cos(time * 0.71 + dot.sx * 0.3) * 0.4;
-      const ny = Math.cos(time * 0.42 + dot.sy) * 0.6 + Math.sin(time * 0.53 + dot.sy * 0.7) * 0.4;
-      return { x: dot.ox + nx * scale, y: dot.oy + ny * scale };
-    };
-
-    const frame = (timestamp: number) => {
-      const time = timestamp * 0.001;
-      const p = progress;
-
-      context.clearRect(0, 0, width, height);
-
-      const wScatter = rampDown(p, 0.025, 0.045);
-      const wGlyph = ramp(p, 0.035, 0.055) * rampDown(p, 0.285, 0.335);
-      const wChannel = bell(p, 0.31, 0.345, 0.39);
-      const wDiagram = 0;
-      const wChaos = bell(p, 0.49, 0.515, 0.54);
-      const wBands = ramp(p, 0.53, 0.58) * rampDown(p, 0.675, 0.705);
-      const wReChaos = bell(p, 0.695, 0.72, 0.745);
-      const wLayers = ramp(p, 0.73, 0.84);
-      const sceneThree = clamp01((p - 0.69) / 0.08);
-
-      for (let index = 0; index < dots.length; index += 1) {
-        const dot = dots[index];
-        const ambient = brownian(dot, time);
-        const scatter = scatterTargets[index] || ambient;
-        const glyph = glyphTargets[index] || ambient;
-        const channel = channelTargets[index] || ambient;
-        const diagram = ambient;
-        const chaos = chaosTargets[index] || ambient;
-        const band = bandTargets[index] || ambient;
-        const layer = (dot.group === 0 ? layerTargets[index] : layerTargetsForRaw[index]) || ambient;
-
-        const delayedScatter = wScatter;
-        const delayedGlyph = Math.max(0, wGlyph - dot.delay * 0.4);
-        const delayedChannel = Math.max(0, wChannel - dot.delay * 0.5);
-        const delayedDiagram = Math.max(0, wDiagram - dot.delay * 0.12);
-        const delayedChaos = Math.max(0, wChaos - dot.delay * 0.3);
-        const delayedBands = Math.max(0, wBands - dot.delay * 0.5);
-        const delayedReChaos = Math.max(0, wReChaos - dot.delay * 0.3);
-        const delayedLayers = Math.max(0, wLayers - dot.delay * 0.4);
-
-        const scatterX = wScatter > 0.5 ? ambient.x : scatter.x;
-        const scatterY = wScatter > 0.5 ? ambient.y : scatter.y;
-        const weightSum =
-          delayedScatter +
-          delayedGlyph +
-          delayedChannel +
-          delayedDiagram +
-          delayedChaos +
-          delayedBands +
-          delayedReChaos +
-          delayedLayers;
-
-        const targetX = weightSum > 0.001
-          ? (scatterX * delayedScatter +
-              glyph.x * delayedGlyph +
-              channel.x * delayedChannel +
-              diagram.x * delayedDiagram +
-              chaos.x * delayedChaos +
-              band.x * delayedBands +
-              chaos.x * delayedReChaos +
-              layer.x * delayedLayers) /
-            weightSum
-          : ambient.x;
-
-        const targetY = weightSum > 0.001
-          ? (scatterY * delayedScatter +
-              glyph.y * delayedGlyph +
-              channel.y * delayedChannel +
-              diagram.y * delayedDiagram +
-              chaos.y * delayedChaos +
-              band.y * delayedBands +
-              chaos.y * delayedReChaos +
-              layer.y * delayedLayers) /
-            weightSum
-          : ambient.y;
-
-        const move = reducedMotion ? 0.12 : 0.075 + 0.03 * (1 - Math.abs(0.5 - p) * 2);
-        dot.x += (targetX - dot.x) * move;
-        dot.y += (targetY - dot.y) * move;
-
-        let color = dot.accent ? '#cf5a32' : '#241c15';
-        if (sceneThree > 0 && dot.group === 0 && sceneThree > 0.5) {
-          color = '#cf5a32';
-        }
-
-        const idleFade = clamp01(1 - p / 0.05);
-        const structuredFocus = clamp01(Math.max(wGlyph * 1.3, wChannel * 0.38, wBands * 0.55));
-        const baseAlpha = color === '#cf5a32'
-          ? lerp(0.74, 0.9, structuredFocus)
-          : lerp(0.46, 0.72, structuredFocus);
-        context.globalAlpha = baseAlpha * lerp(0.28, 1, 1 - idleFade);
-        context.fillStyle = color;
-
-        const size = dot.size * lerp(1, 1.22, structuredFocus) * (color === '#cf5a32' ? 1.18 : 1);
-        context.fillRect(dot.x - size / 2, dot.y - size / 2, size, size);
-      }
-
-      context.globalAlpha = 1;
-      updateHud();
-      animationFrame = window.requestAnimationFrame(frame);
-    };
-
-    const handleResize = () => {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(() => {
-        resize();
-        updateProgress();
-      }, 120);
-    };
-
-    resize();
-    initDots();
-    computeTargets();
-    updateProgress();
-    animationFrame = window.requestAnimationFrame(frame);
-
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', handleResize);
-    document.fonts?.ready.then(computeTargets).catch(() => undefined);
-
-    return () => {
-      window.cancelAnimationFrame(animationFrame);
-      window.clearTimeout(resizeTimer);
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setTerminalStepIndex((index) => (index + 1) % terminalSteps.length);
-    }, 3000);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
   return (
-    <>
-      <section ref={stageRef} className="dhee-stage" aria-label="Dhee context manager narrative">
-        <div className="dhee-pin">
-          <canvas ref={canvasRef} className="dhee-particle-canvas" aria-hidden="true" />
-
-          <div ref={idleRef} className="dhee-hud dhee-hud-idle">
-            <div className="dhee-hero-body">
-              <div className="dhee-hero-copy">
-                <div className="dhee-tag">
-                  <span />
-                  Dhee context manager
-                </div>
-                <h1 className="dhee-display">
-                  your agent sees
-                  <br />
-                  <em>what matters.</em>
-                </h1>
-                <p className="dhee-lede">
-                  Dhee decides what your coding agent should see, remember, and forget each turn,
-                  so Codex, Claude Code, and MCP-native agents stay cheap, reliable, and auditable.
-                </p>
-                <div className="dhee-proofline">
-                  <span />
-                  state card / receipts / pointer memory
-                </div>
-                <div className="dhee-actions">
-                  <a className="dhee-btn dhee-btn-primary" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
-                    Start free -&gt;
-                  </a>
-                  <a className="dhee-btn" href="/pricing/">
-                    Pricing
-                  </a>
-                </div>
-              </div>
-
-              <div className="dhee-terminal" aria-label="Dhee terminal preview">
-                <div className="dhee-terminal-title">
-                  <span className="dhee-window-dots">
-                    <span />
-                    <span />
-                    <span />
-                  </span>
-                  {terminalStep.title}
-                </div>
-                <div key={terminalStep.label} className="dhee-terminal-body">
-                  <p className="dhee-terminal-step">{terminalStep.label}</p>
-                  <p><span>$</span> <strong>{terminalStep.command}</strong></p>
-                  {terminalStep.lines.map(([status, body]) => (
-                    <p key={`${status}-${body}`}>
-                      <em>{status}</em> {body}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div ref={sceneOneRef} className="dhee-hud dhee-scene dhee-scene-channel">
-            <div className="dhee-scene-meta">/ chapter i - channel</div>
-            <p className="dhee-tagline">
-              work happens.
-              <br />
-              dhee turns it into
-              <br />
-              <em>usable context.</em>
+    <div className="dhee-landing-page">
+      <section className="dhee-landing-hero" aria-label="Dhee agent memory runtime">
+        <div className="dhee-landing-inner dhee-hero-grid">
+          <div className="dhee-hero-copy">
+            <p className="dhee-eyebrow"><span /> Dhee agent memory runtime</p>
+            <h1>
+              <span>Give agents</span>
+              <span className="dhee-hero-muted">the right context.</span>
+            </h1>
+            <p className="dhee-hero-lede">
+              Dhee gives AI agents compact memory before, during, and after work.
             </p>
-            <div ref={legendRef} className="dhee-channel-card" aria-label="Dhee context route">
-              <div className="dhee-channel-card-head">
-                <span>context route</span>
-                <strong>before the next agent call</strong>
-              </div>
-              <div className="dhee-route-stack">
-                <article className="dhee-route-node">
-                  <span>01</span>
-                  <div>
-                    <strong>capture the work</strong>
-                    <p>Reads, edits, shell output, tests.</p>
-                  </div>
-                  <em>local</em>
-                </article>
-                <article className="dhee-route-node">
-                  <span>02</span>
-                  <div>
-                    <strong>compile the state</strong>
-                    <p>Goal, plan, decisions, evidence receipts.</p>
-                  </div>
-                  <em>dhee</em>
-                </article>
-                <article className="dhee-route-node dhee-route-node-active">
-                  <span>03</span>
-                  <div>
-                    <strong>admit only what helps</strong>
-                    <p>The model sees the brief, not the pile.</p>
-                  </div>
-                  <em>prompt</em>
-                </article>
-              </div>
-              <div className="dhee-channel-foot">
-                <span>raw output behind pointers</span>
-                <span>claims linked to evidence</span>
-              </div>
+            <div className="dhee-hero-actions">
+              <a className="dhee-action dhee-action-primary" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
+                Install Dhee -&gt;
+              </a>
+              <a className="dhee-action" href="/docs/">
+                Read docs
+              </a>
             </div>
           </div>
 
-          <div ref={sceneTwoRef} className="dhee-hud dhee-scene dhee-scene-accumulate">
-            <div className="dhee-scene-meta">/ chapter ii - accumulation</div>
-            <h2 className="dhee-chapter">
-              the transcript stops
-              <br />
-              <em>being</em> the source.
-            </h2>
-            <p>
-              Dhee recompiles the current task, decisions, constraints, files, and receipts into
-              a small state card before the next agent call.
-            </p>
-          </div>
-
-          <div ref={sceneThreeRef} className="dhee-hud dhee-scene dhee-scene-govern">
-            <div>
-              <div className="dhee-scene-meta">/ chapter iii - governance</div>
-              <h2 className="dhee-chapter">
-                <span>raw signal becomes</span>
-                <br />
-                <em>governed context.</em>
-              </h2>
+          <aside className="dhee-hero-system" aria-label="Dhee memory workbench">
+            <div className="dhee-hero-system-bar">
+              <span className="dhee-window-dots">
+                <span />
+                <span />
+                <span />
+              </span>
+              <strong>dhee run packet</strong>
+              <em>live</em>
             </div>
-            <div className="dhee-govern-panel">
-              <div className="dhee-pills">
-                <span><i /> raw activity - stays behind pointers</span>
-                <span><i /> admitted context - enters the model</span>
+
+            <div className="dhee-hero-system-body">
+              <div className="dhee-memory-lane dhee-memory-lane-before">
+                <span>before</span>
+                <h2>context packet</h2>
+                <div className="dhee-memory-chips" aria-label="Context packet contents">
+                  <b>repo rules</b>
+                  <b>open task</b>
+                  <b>user prefs</b>
+                  <b>handoff</b>
+                </div>
               </div>
-              <ol ref={layerListRef} className="dhee-layer-list">
-                {layers.map((layer) => (
-                  <li key={layer.num}>
-                    <span>{layer.num} {layer.name}</span>
-                    <strong>{layer.title}</strong>
-                    <p>{layer.body}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
 
+              <div className="dhee-memory-core" aria-label="Dhee memory router">
+                <span>dhee_memory</span>
+                <strong>recall useful facts</strong>
+                <p>source-linked, filtered, compact</p>
+              </div>
+
+              <div className="dhee-memory-lane dhee-memory-lane-during">
+                <span>during</span>
+                <h2>agent asks</h2>
+                <code>what did we decide?</code>
+              </div>
+
+              <div className="dhee-memory-lane dhee-memory-lane-after">
+                <span>after</span>
+                <h2>checkpoint proof</h2>
+                <ul>
+                  <li>diff verified</li>
+                  <li>lesson saved</li>
+                  <li>next run warmer</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="dhee-hero-system-footer" aria-label="Install Dhee command">
+              <span>install</span>
+              <code>curl -fsSL https://raw.githubusercontent.com/Sankhya-AI/Dhee/main/install.sh | sh</code>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section aria-hidden="true" className="dhee-dither-bridge">
+      <div className="dhee-transition-band dhee-light-to-dark-bridge dhee-hero-transition-band" aria-hidden="true">
         <PixelDither
-          fillColor="var(--dhee-ink)"
-          pattern="noise"
-          seed={11}
           direction="bottom-up"
-          startWeight={0.05}
+          fillColor="#100d0a"
+          pattern="noise"
           erosionWeight={0.62}
           pixelSize={18}
+          seed={11}
+          startWeight={0.05}
+          className="opacity-100"
         />
-      </section>
+      </div>
 
-      <section className="dhee-below" id="how" data-dhee-navbar-inverse="true">
-        <div className="dhee-clarity">
-          <div className="dhee-clarity-copy">
-            <div className="dhee-section-meta">/ what the agent sees</div>
-            <h2>A clear brief before every call.</h2>
+      <section className="dhee-loop-section" id="how" data-dhee-navbar-inverse="true" aria-label="How Dhee works">
+        <div className="dhee-landing-inner">
+          <div className="dhee-section-head dhee-section-head-dark">
+            <p className="dhee-eyebrow"><span /> How Dhee works</p>
+            <h2>Memory becomes a loop, not a prompt dump.</h2>
             <p>
-              Dhee turns the messy working session into one small, auditable state card. The model gets the point, not the pile.
+              Dhee sits underneath the agent you already run. The model gets the right context at the right time, while raw history and noisy tool output stay behind the router.
             </p>
-            <div className="dhee-compact-actions">
-              <a className="dhee-btn dhee-btn-primary" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
-                start free -&gt;
-              </a>
-              <a className="dhee-btn" href="/docs/">
-                docs
-              </a>
-            </div>
           </div>
-
-          <div className="dhee-clarity-flow" aria-label="Dhee compiled context flow">
-            <article className="dhee-flow-card dhee-flow-muted">
-              <span>raw work</span>
-              <strong>transcript, shell, tests, files</strong>
-              <p>Stored locally behind pointers.</p>
-            </article>
-
-            <article className="dhee-flow-card dhee-flow-compiler">
-              <span>dhee</span>
-              <strong>compile + admit</strong>
-              <p>Keep the useful state. Suppress the noise.</p>
-            </article>
-
-            <article className="dhee-model-card">
-              <div className="dhee-model-card-top">
-                <span>agent sees</span>
-                <strong>state card</strong>
-              </div>
-              <ul>
-                <li>goal</li>
-                <li>active plan</li>
-                <li>decisions</li>
-                <li>evidence receipts</li>
-                <li>open risks</li>
-              </ul>
-            </article>
+          <div className="dhee-step-grid">
+            {workflowSteps.map((step) => (
+              <article key={step.num} className="dhee-step-card">
+                <span>{step.num} / {step.label}</span>
+                <h3>{step.verb}</h3>
+                <p>{step.body}</p>
+                <div>
+                  {step.proof.map((item) => (
+                    <em key={item}>{item}</em>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
-    </>
+
+      <div className="dhee-transition-band dhee-dark-to-light-bridge" aria-hidden="true">
+        <PixelDither
+          direction="bottom-up"
+          fillColor="var(--dhee-paper)"
+          pattern="noise"
+          erosionWeight={0.62}
+          pixelSize={18}
+          seed={11}
+          startWeight={0.05}
+          className="opacity-100"
+        />
+      </div>
+
+      <section className="dhee-use-section" aria-label="Dhee use cases">
+        <div className="dhee-landing-inner">
+          <div className="dhee-section-head">
+            <p className="dhee-eyebrow"><span /> Give agents memory</p>
+            <h2>Use Dhee where agents lose the thread.</h2>
+            <p>
+              The product promise is practical: fewer repeated questions, fewer giant prompts, clearer handoffs, and better next actions.
+            </p>
+          </div>
+          <div className="dhee-use-grid">
+            {useCases.map((useCase) => (
+              <article key={useCase.title} className="dhee-use-card">
+                <h3>{useCase.title}</h3>
+                <p>{useCase.body}</p>
+                <div>
+                  {useCase.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="dhee-integration-section" id="integrations" aria-label="Dhee integrations">
+        <div className="dhee-landing-inner">
+          <div className="dhee-section-head">
+            <p className="dhee-eyebrow"><span /> Integrations</p>
+            <h2>Keep your stack. Add memory underneath it.</h2>
+            <p>
+              Dhee is not asking you to adopt a new agent framework. Use MCP, Python, provider helpers, or HTTP and keep the rest of your runtime intact.
+            </p>
+          </div>
+          <div className="dhee-integration-grid">
+            {integrationPaths.map((path) => (
+              <article key={path.title} className="dhee-integration-card">
+                <h3>{path.title}</h3>
+                <p>{path.note}</p>
+                <pre><code>{path.code}</code></pre>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="dhee-transition-band dhee-light-to-dark-bridge" aria-hidden="true">
+        <PixelDither
+          direction="bottom-up"
+          fillColor="#100d0a"
+          pattern="noise"
+          erosionWeight={0.62}
+          pixelSize={18}
+          seed={11}
+          startWeight={0.05}
+          className="opacity-100"
+        />
+      </div>
+
+      <section className="dhee-proof-section" data-dhee-navbar-inverse="true" aria-label="Why Dhee is different">
+        <div className="dhee-landing-inner dhee-proof-layout">
+          <div className="dhee-proof-copy">
+            <p className="dhee-eyebrow"><span /> Why it works</p>
+            <h2>Useful memory is governed before it is remembered.</h2>
+            <p>
+              Dhee treats every fact as something that needs scope, source, freshness, and permission to enter the next context packet.
+            </p>
+            <div className="dhee-stat-row">
+              {stats.map(([value, label]) => (
+                <div key={label}>
+                  <strong>{value}</strong>
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="dhee-proof-grid">
+            {proofPoints.map((point) => (
+              <article key={point.title}>
+                <h3>{point.title}</h3>
+                <p>{point.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="dhee-transition-band dhee-dark-to-light-bridge" aria-hidden="true">
+        <PixelDither
+          direction="bottom-up"
+          fillColor="var(--dhee-paper)"
+          pattern="noise"
+          erosionWeight={0.62}
+          pixelSize={18}
+          seed={11}
+          startWeight={0.05}
+          className="opacity-100"
+        />
+      </div>
+
+      <section className="dhee-final-cta" aria-label="Install Dhee">
+        <div className="dhee-landing-inner dhee-final-card">
+          <p className="dhee-eyebrow"><span /> Start small</p>
+          <h2>Add memory to one agent today.</h2>
+          <p>
+            Wire Dhee into a local MCP client, a Python agent, or a provider SDK. The first win is simple: the next session should not start from zero.
+          </p>
+          <div className="dhee-hero-actions">
+            <a className="dhee-action dhee-action-primary" href="https://github.com/Sankhya-AI/Dhee" target="_blank" rel="noreferrer">
+              Install from GitHub -&gt;
+            </a>
+            <a className="dhee-action" href="/docs/">
+              Open docs
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dhee — Context Manager for Coding Agents</title>
+    <title>Dhee - Agent Memory Runtime</title>
     <meta
       name="description"
-      content="Dhee decides what your coding agent should see, remember, and forget each turn, so it stays cheap, reliable, and auditable."
+      content="Dhee gives AI agents useful memory before, during, and after work with compact context, dhee_memory tools, checkpoints, and handoffs for MCP, Python, OpenAI, Gemini, ElevenLabs, Claude, Codex, and Cursor."
     />
     <meta
       name="keywords"
-      content="Dhee, AI agent memory, LLM memory layer, Claude Code memory, CLAUDE.md optimization, AGENTS.md, context router, context compression, token optimization, MCP server, model context protocol, LongMemEval, vector memory, RAG for agents, self-evolving memory, agent cognition, Mem0 alternative, Letta alternative, MemPalace alternative, Cursor memory, Codex memory, Gemini CLI memory, Aider memory, Cline memory"
+      content="Dhee, agent memory runtime, AI agent memory, LLM memory layer, context router, compact context, dhee_memory, checkpoints, MCP server, Python SDK, Claude Code memory, Codex memory, Cursor memory, Gemini agents, OpenAI Responses agents, ElevenLabs voice agents, agent handoff, source-linked digests, local-first memory"
     />
     <link rel="icon" type="image/png" href="/sensai-logo.png" />
     <link rel="canonical" href="https://dhee.sankhyaailabs.com/" />
@@ -21,10 +21,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Dhee" />
     <meta property="og:url" content="https://dhee.sankhyaailabs.com/" />
-    <meta property="og:title" content="Dhee — Context Manager for Coding Agents" />
+    <meta property="og:title" content="Dhee - Agent Memory Runtime" />
     <meta
       property="og:description"
-      content="A Sankhya AI Labs product that controls what enters the prompt, what stays in memory, and what gets forgotten before it becomes a liability."
+      content="Give agents compact context before they act, a memory tool while they work, and checkpoints after the run."
     />
     <meta property="og:image" content="https://dhee.sankhyaailabs.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -32,10 +32,10 @@
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Dhee — Context Manager for Coding Agents" />
+    <meta name="twitter:title" content="Dhee - Agent Memory Runtime" />
     <meta
       name="twitter:description"
-      content="Dhee decides what your coding agent should see, remember, and forget each turn."
+      content="Dhee gives agents useful memory through compact context, memory tools, checkpoints, and handoffs."
     />
     <meta name="twitter:image" content="https://dhee.sankhyaailabs.com/og-image.png" />
 
@@ -44,17 +44,10 @@
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Dhee",
-      "description": "Dhee is a context manager for coding agents. It decides what the model should see, remember, and forget each turn so agent sessions stay cheap, reliable, and auditable.",
+      "description": "Dhee is an agent memory runtime. It gives agents compact context before they act, a memory tool while they work, and checkpoints after the run.",
       "url": "https://dhee.sankhyaailabs.com/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "macOS, Linux, Windows",
-      "offers": {
-        "@type": "AggregateOffer",
-        "lowPrice": "0",
-        "highPrice": "5",
-        "priceCurrency": "USD",
-        "offerCount": "2"
-      },
       "author": {
         "@type": "Organization",
         "name": "Sankhya AI Labs",
@@ -67,10 +60,11 @@
         "LLM memory layer",
         "context router",
         "context compression",
-        "token optimization",
-        "context manager",
+        "agent memory runtime",
+        "agent runtime",
         "repo memory",
-        "shared context",
+        "SceneCards",
+        "MemoryItems",
         "self-evolving memory",
         "Claude Code",
         "MCP server",
@@ -90,15 +84,15 @@
           "name": "What is Dhee?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Dhee is a context manager for coding agents. It sits between your agent and the model, decides what context should be admitted, keeps useful memory linked to evidence, and suppresses stale transcript and tool-output bloat."
+          "text": "Dhee is an agent memory runtime. It stores useful user, project, repo, scene, and handoff memory, then compiles compact context before the next action."
           }
         },
         {
           "@type": "Question",
-          "name": "How does Dhee reduce Claude Code token usage?",
+          "name": "How does Dhee improve an existing agent?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Two mechanisms. First, a 500-line CLAUDE.md that normally re-loads every turn becomes a vector-indexed memory that injects only matching rules — about 240 tokens instead of 5,700. Second, the router wraps Read and Bash so a 10 MB git log becomes a 40-token digest with a pointer; raw content only re-enters context if the model explicitly expands the pointer. Typical reduction is 90%+."
+          "text": "Dhee adds a simple loop: compact context before the run, a dhee_memory tool during the run, and checkpoints after the run."
           }
         },
         {
@@ -111,10 +105,10 @@
         },
         {
           "@type": "Question",
-          "name": "Does Dhee work with Cursor, Codex, Gemini CLI, Aider, Cline, or Goose?",
+          "name": "Does Dhee work with ElevenLabs, Gemini, OpenAI, Codex, or MCP clients?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Dhee exposes an MCP server that plugs into any MCP-compatible client — Claude Code, Cursor, Codex, Gemini CLI, Cline, Goose, Claude Desktop — plus native Claude Code hooks, a Python SDK, a CLI, and Docker. One install, every host."
+            "text": "Yes. Dhee has native provider helpers for ElevenLabs voice agents, Gemini API agents, and OpenAI Responses agents, plus MCP, Python SDK, HTTP sidecar, CLI, and Docker surfaces."
           }
         },
         {
@@ -122,7 +116,7 @@
           "name": "Is Dhee production-ready? What storage does it use?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Dhee runs on SQLite by default — no Postgres, no Qdrant, no pgvector, no extra infrastructure. It has 1000+ tests, reproducible benchmarks committed in-tree, an MIT license, and works offline with Ollama embeddings or online with OpenAI, NVIDIA NIM, or Google Gemini."
+            "text": "Dhee runs on SQLite by default and can use local or hosted providers for embeddings, reranking, and rollups. Deterministic filters still run first: secrets, private scenes, contradictions, supersession, and proof gates."
           }
         },
         {
@@ -141,7 +135,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Geist:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <script type="importmap">
@@ -165,21 +159,20 @@
     <div id="root"></div>
     <noscript>
       <article>
-        <h1>Dhee — Context Manager for Coding Agents</h1>
+        <h1>Dhee - Agent Memory Runtime</h1>
         <p>
-          Dhee is a Sankhya AI Labs product that decides what your coding agent should see,
-          remember, and forget each turn, so Codex, Claude Code, and MCP-native agents stay cheap,
-          reliable, and auditable.
+          Dhee gives agents useful memory before, during, and after work. It compiles compact
+          context, exposes a memory tool, and checkpoints what should matter next time.
         </p>
         <h2>What Dhee does</h2>
         <ul>
-          <li><strong>Compiled state:</strong> keeps the current goal, plan, decisions, files, and receipts compact.</li>
-          <li><strong>Context admission:</strong> routes relevant project rules and suppresses stale transcript or tool output.</li>
-          <li><strong>Pointer evidence:</strong> stores large raw outputs behind expandable references instead of dumping them into the prompt.</li>
-          <li><strong>Auditable memory:</strong> links assertions back to admitted evidence so old assumptions can be corrected.</li>
+          <li><strong>Context:</strong> starts a run with the useful user, project, repo, scene, and handoff facts.</li>
+          <li><strong>Memory tool:</strong> lets agents recall or save information during work.</li>
+          <li><strong>Filtering:</strong> keeps transcript noise, stale claims, and secrets out of default context.</li>
+          <li><strong>Checkpoints:</strong> saves outcomes, corrections, preferences, proof, and open tasks for the next run.</li>
         </ul>
         <h2>Works with</h2>
-        <p>Claude Code, Cursor, Codex, Gemini CLI, Aider, Cline, Goose, Claude Desktop, Python SDK, CLI, and Docker.</p>
+        <p>ElevenLabs voice agents, Gemini API agents, OpenAI Responses agents, Codex, Claude Code, MCP clients, Python SDK, CLI, HTTP, and Docker.</p>
         <p><a href="https://github.com/Sankhya-AI/Dhee">View Dhee on GitHub</a></p>
       </article>
     </noscript>

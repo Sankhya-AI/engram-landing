@@ -96,7 +96,7 @@ export default function VenomBeam({ className, children }: VenomBeamProps) {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDistance) {
             const alpha = (1 - dist / maxDistance) * 0.28;
-            ctx.strokeStyle = `rgba(232, 114, 42, ${alpha})`;
+            ctx.strokeStyle = `rgba(107, 102, 95, )`;
             ctx.lineWidth = 0.7;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -107,9 +107,9 @@ export default function VenomBeam({ className, children }: VenomBeamProps) {
       }
 
       nodes.forEach((node) => {
-        ctx.fillStyle = "rgba(232, 93, 69, 0.85)";
+        ctx.fillStyle = "rgba(79, 74, 67, 0.85)";
         ctx.shadowBlur = 12;
-        ctx.shadowColor = "rgba(232, 114, 42, 0.45)";
+        ctx.shadowColor = "rgba(107, 102, 95, 0.45)";
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -127,7 +127,7 @@ export default function VenomBeam({ className, children }: VenomBeamProps) {
       ctx.fillRect(0, 0, width, height);
 
       nodes.forEach((node) => {
-        ctx.fillStyle = "rgba(232, 93, 69, 0.85)";
+        ctx.fillStyle = "rgba(79, 74, 67, 0.85)";
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.fill();

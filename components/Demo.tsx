@@ -10,7 +10,7 @@ export const Demo: React.FC = () => {
           Watch the product brain form.{' '}
           <span
             style={{
-              background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
+              background: 'linear-gradient(135deg, #14100c 0%, #4f4a43 30%, #6b665f 60%, #9a958d 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -20,8 +20,8 @@ export const Demo: React.FC = () => {
           </span>
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
-          Walkthrough: curl install → agent session → selective inject → digested tool output → handoff-ready context.
-          Free local core first, shared team context when multiple developers need the same repo brain.
+          Walkthrough: install → agent session → selective inject → digested tool output → handoff-ready context.
+          The same memory loop works across provider SDKs, MCP clients, and HTTP sidecars.
         </p>
       </div>
 

@@ -1,5 +1,5 @@
 {
-  "name": "Dhee Landing Page",
-  "description": "Dhee — product brain for AI-native engineering teams. Free OSS for individual developers, with a Team plan at $5 per seat for shared repo context.",
+  "name": "Dhee - Agent Memory Runtime",
+  "description": "Dhee gives agents useful memory before, during, and after work with compact context, dhee_memory tools, checkpoints, and handoffs for MCP, Python, OpenAI, Gemini, ElevenLabs, Claude, Codex, and Cursor.",
   "requestFramePermissions": []
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import VenomBeam from './scrollx/VenomBeam';
 import { AnimatedButton } from './scrollx/AnimatedButton';
-import { CalDemoButton } from './CalDemoButton';
 
 export const CTA: React.FC = () => {
   return (
@@ -9,22 +8,22 @@ export const CTA: React.FC = () => {
       <VenomBeam className="flex items-center justify-center w-full flex-col px-6 md:px-12 py-24 text-center">
         <img src="/sensai-logo.png" alt="Dhee logo" className="w-16 h-16 object-contain mb-6" />
         <h2 className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight leading-[1.05] text-gray-900 mb-6">
-          Start with open source.
+          Give your agent memory.
           <br />
           <span
             style={{
-              background: 'linear-gradient(135deg, #e8722a 0%, #e85d45 30%, #d4607a 60%, #ff8a2b 100%)',
+              background: 'linear-gradient(135deg, #14100c 0%, #4f4a43 30%, #6b665f 60%, #9a958d 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
             }}
           >
-            Upgrade when memory becomes team infrastructure.
+            Keep the provider you already use.
           </span>
         </h2>
         <p className="max-w-3xl mx-auto text-sm md:text-lg text-gray-600 text-center mb-8">
-          Install the free Developer Brain, read the docs, watch the demo, then join the Dhee Team plan at $5 per seat
-          when your team needs shared repo context, coordinated routing, and governed handoffs.
+          Dhee adds compact context before the run, a memory tool during the run, and checkpoints after the run
+          for ElevenLabs, Gemini, OpenAI, Codex, and MCP-native agents.
         </p>
 
         <div className="w-full max-w-3xl rounded-2xl bg-[#0d0d0d] p-5 md:p-6 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] mb-8 text-left">
@@ -32,7 +31,7 @@ export const CTA: React.FC = () => {
             <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-            <span className="ml-3 text-[11px] text-gray-500 font-mono">free developer brain</span>
+            <span className="ml-3 text-[11px] text-gray-500 font-mono">dhee install</span>
           </div>
           <div className="font-mono text-sm leading-relaxed">
             <span className="text-green-400">$</span>{' '}
@@ -50,9 +49,6 @@ export const CTA: React.FC = () => {
               View on GitHub
             </a>
           </AnimatedButton>
-          <CalDemoButton className="px-6 py-3 rounded-sm text-sm font-semibold border border-black/15 text-gray-600 hover:text-gray-900 hover:border-black/40 transition-all bg-transparent">
-            Book a demo
-          </CalDemoButton>
           <a
             href="/docs/"
             className="px-6 py-3 rounded-sm text-sm font-semibold text-gray-500 hover:text-gray-900 transition-all"
@@ -61,7 +57,7 @@ export const CTA: React.FC = () => {
           </a>
         </div>
         <p className="mt-6 text-xs text-gray-500">
-          Dhee is a Sankhya AI Labs product · Open source core · Team plan at $5 per seat
+          Dhee is a Sankhya AI Labs product for world memory, context routing, and agent checkpoints.
         </p>
       </VenomBeam>
     </div>

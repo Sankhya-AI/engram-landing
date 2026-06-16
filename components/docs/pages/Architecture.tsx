@@ -14,8 +14,8 @@ export const Architecture: React.FC = () => {
         <svg viewBox="0 0 900 430" role="img" aria-label="Dhee architecture">
           <defs>
             <linearGradient id="dheeStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#e8722a" />
-              <stop offset="100%" stopColor="#d4607a" />
+              <stop offset="0%" stopColor="#14100c" />
+              <stop offset="100%" stopColor="#6b665f" />
             </linearGradient>
           </defs>
 
